@@ -8,7 +8,7 @@ function Alljobs() {
           <input
             type="text"
             class="form-control"
-            placeholder="Job title, Keyword or Company"
+            placeholder="Search for service"
             aria-label="Recipient's username"
             aria-describedby="search-btn"
           />
@@ -38,7 +38,7 @@ function Alljobs() {
                 className="form-control mb-3"
                 id="keyword"
                 aria-describedby="keyword"
-                placeholder="Title, Company"
+                placeholder="Search for service"
               />
               <label htmlFor="jobcat" className="form-label">
                 Job Category
@@ -48,10 +48,11 @@ function Alljobs() {
                 aria-label="Select for number of employee"
               >
                 <option selected>All Categories</option>
-                <option value="1">Design</option>
-                <option value="2">Development</option>
-                <option value="3">SEO</option>
-                <option value="3">Marketing</option>
+                <option value="1">Cleaning</option>
+                <option value="2">Plumber</option>
+                <option value="3">Electrician</option>
+                <option value="3">Carpenter</option>
+                <option value="3">Painting</option>
               </select>
               <label htmlFor="jobtype" className="form-label">
                 Job Type
@@ -76,8 +77,10 @@ function Alljobs() {
           <div className="col-sm-8">
             {/* START: List Item */}
             <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Design Manager</h2>
-              <span>NetSolutions</span>
+              <h2 className="h5">Plumber</h2>
+              <span className="badge bg-success">Water Tank</span>{" "}
+              <span className="badge bg-warning">Tap & Mixer</span>{" "}
+              <span className="badge bg-danger">Water Filter</span>
               <p>Mohali, India</p>
               <ul>
                 <li>
@@ -93,8 +96,10 @@ function Alljobs() {
             {/* END: List Item */}
             {/* START: List Item */}
             <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
+              <h2 className="h5">Electrician</h2>
+              <span className="badge bg-secondary">AC Repair</span>{" "}
+              <span className="badge bg-primary">Television</span>{" "}
+              <span className="badge bg-danger">Washing Machine</span>
               <p>Mohali, India</p>
               <ul>
                 <li>
@@ -110,8 +115,10 @@ function Alljobs() {
             {/* END: List Item */}
             {/* START: List Item */}
             <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
+              <h2 className="h5">Plumber</h2>
+              <span className="badge bg-success">Water Tank</span>{" "}
+              <span className="badge bg-warning">Tap & Mixer</span>{" "}
+              <span className="badge bg-danger">Water Filter</span>
               <p>Mohali, India</p>
               <ul>
                 <li>
@@ -127,8 +134,10 @@ function Alljobs() {
             {/* END: List Item */}
             {/* START: List Item */}
             <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
+              <h2 className="h5">Electrician</h2>
+              <span className="badge bg-secondary">AC Repair</span>{" "}
+              <span className="badge bg-primary">Television</span>{" "}
+              <span className="badge bg-danger">Washing Machine</span>
               <p>Mohali, India</p>
               <ul>
                 <li>
@@ -142,6 +151,45 @@ function Alljobs() {
               </ul>
             </div>
             {/* END: List Item */}
+            {/* START: Pagination */}
+            <nav aria-label="Page navigation example" className="mt-5">
+              <ul className="pagination justify-content-center">
+                <li className="page-item disabled">
+                  <a className="page-link">Previous</a>
+                </li>
+                <li className="page-item">
+                  <a class="page-link" href="#">
+                    1
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a class="page-link" href="#">
+                    2
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a class="page-link" href="#">
+                    3
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a class="page-link" href="#">
+                    4
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a class="page-link" href="#">
+                    5
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
+             {/* END: Pagination */}
           </div>
         </div>
       </div>

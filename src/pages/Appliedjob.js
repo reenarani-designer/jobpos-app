@@ -1,10 +1,8 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import RecommondedJobs from "./Recommendedjobs";
-function JobDetails() {
-  return (
-    <>
-      <div className="container py-5">
+function AppliedJob(){
+    return(
+        <>
+        <div className="container py-5">
         <nav aria-label="--bs-breadcrumb-divider: '>';">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -17,14 +15,14 @@ function JobDetails() {
         </nav>
         <hr />
         <div className="row">
-          <div className="col-sm-8">
+          <div className="col-sm-12">
             <h1 className="h2 mb-0">Plumber</h1>
             <ul className="list-group mb-3">
               <li className="list-group-item border-0 p-0">Mohali, India</li>
               <li className="list-group-item border-0 p-0">
                 <span className="badge bg-secondary">Starts at ₹799</span>{" "}
                 <span className="badge bg-danger">Water Tank</span>{" "}
-                <span className="badge bg-info">Tap</span>
+                <span className="badge bg-info">Tap & Mixer</span>
               </li>
             </ul>
             <p>
@@ -52,17 +50,11 @@ function JobDetails() {
               accumsan, fermentum odio laoreet, pretium leo. Fusce sed viverra
               nulla.
             </p>
-            <button className="btn btn-primary">Apply Job</button>
-          </div>
-
-          <div className="col-sm-4">
-            <aside className=" bg-light p-4">
-              <RecommondedJobs></RecommondedJobs>
-            </aside>
+            <button className="btn btn-primary">Add Again</button>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </div> 
+        </>
+    );
 }
-export default JobDetails;
+export default AppliedJob;

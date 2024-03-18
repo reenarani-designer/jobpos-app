@@ -8,13 +8,17 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Addjob from "./pages/Addjob";
 import Alljobs from "./pages/Alljobs";
+import AppliedJobs from "./pages/Appliedjobs";
 import Otp from "./pages/Otp";
-import CreateProfile from "./pages/Profile";
+import EmployeeProfile from "./pages/Employeeprofile";
 import JobDetails from "./pages/Jobdetails";
 import RecommondedJobs from "./pages/Recommendedjobs";
 import EmployerJoblist from "./pages/Employerjoblist";
 import UpdateJob from "./pages/Updatejob";
 import AdminLogin from "./pages/Adminlogin";
+import EmployerProfile from "./pages/Employerprofile";
+import AllUsers from "./pages/Allusers";
+import ChatBox from "./pages/Chat";
 
 function App() {
   return (
@@ -25,19 +29,21 @@ function App() {
           <Route path="/about" element={ <About />} />
           <Route path="/contact" element={ <Contact />} />
           <Route path="/otp" element={ <Otp />} />
-          <Route path="/profile" element={ <CreateProfile /> } />
+          <Route path="/employeeprofile" element={ <EmployeeProfile /> } />
+          <Route path="/employerprofile" element={ <EmployerProfile /> } />
           <Route path="/jobdetails" element={ <JobDetails /> } />
           <Route path="/employerjoblist" element={ <EmployerJoblist/ > } />
           <Route path="/addjob" element={ <Addjob />} />
           <Route path="/alljobs" element={ <Alljobs />} />
+          <Route path="/appliedjobs" element={ <AppliedJobs />} />
           <Route path="/recommendedjobs" element={ <RecommondedJobs />} />
           <Route path="/updatejob" element={ <UpdateJob /> } />
           <Route path="/adminlogin" element={ <AdminLogin /> } />
+          <Route path="/allusers" element={ <AllUsers /> } />
+          <Route path="/chatbox" element={ <ChatBox /> } />
       </Route>
       </Routes>
     </BrowserRouter>
-   
-    
   );
 }
 
