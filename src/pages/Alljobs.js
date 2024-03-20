@@ -4,7 +4,7 @@ function Alljobs() {
     <>
       <div className="container-fluid bg-light text-center py-5">
         <h1 className="h2 mb-3">FInd your next job</h1>
-        <div class="input-group mb-3 w-50 m-auto">
+        <div className="input-group mb-3 w-50 m-auto">
           <input
             type="text"
             class="form-control"
@@ -158,27 +158,27 @@ function Alljobs() {
                   <a className="page-link">Previous</a>
                 </li>
                 <li className="page-item">
-                  <a class="page-link" href="#">
+                  <a className="page-link" href="#">
                     1
                   </a>
                 </li>
                 <li className="page-item">
-                  <a class="page-link" href="#">
+                  <a className="page-link" href="#">
                     2
                   </a>
                 </li>
                 <li className="page-item">
-                  <a class="page-link" href="#">
+                  <a className="page-link" href="#">
                     3
                   </a>
                 </li>
                 <li className="page-item">
-                  <a class="page-link" href="#">
+                  <a className="page-link" href="#">
                     4
                   </a>
                 </li>
                 <li className="page-item">
-                  <a class="page-link" href="#">
+                  <a className="page-link" href="#">
                     5
                   </a>
                 </li>

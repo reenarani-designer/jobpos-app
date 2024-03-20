@@ -19,9 +19,11 @@ import AdminLogin from "./pages/Adminlogin";
 import EmployerProfile from "./pages/Employerprofile";
 import AllUsers from "./pages/Allusers";
 import ChatBox from "./pages/Chat";
+import AuthProvider from "./context/AuthContext";
 
 function App() {
   return (
+<AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Header />}>
@@ -44,6 +46,7 @@ function App() {
       </Route>
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
