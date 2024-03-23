@@ -7,14 +7,14 @@ function Alljobs() {
         <div className="input-group mb-3 w-50 m-auto">
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="Search for service"
             aria-label="Recipient's username"
             aria-describedby="search-btn"
           />
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="City or Postcode"
             aria-label="Recipient's username"
             aria-describedby="search-btn"
@@ -47,7 +47,7 @@ function Alljobs() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option selected>All Categories</option>
+                <option defaultValue={'1'} >All Categories</option>
                 <option value="1">Cleaning</option>
                 <option value="2">Plumber</option>
                 <option value="3">Electrician</option>
@@ -61,7 +61,7 @@ function Alljobs() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option selected>All Jobs</option>
+                <option defaultValue={'1'} >All Jobs</option>
                 <option value="1">Full Time</option>
                 <option value="2">Part Time</option>
                 <option value="3">Fixed Term</option>

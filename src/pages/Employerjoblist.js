@@ -28,7 +28,7 @@ function EmployerJoblist() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option selected>All Categories</option>
+                <option defaultValue={'1'} >All Categories</option>
                 <option value="1">Design</option>
                 <option value="2">Development</option>
                 <option value="3">SEO</option>
@@ -41,7 +41,7 @@ function EmployerJoblist() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option selected>All Jobs</option>
+                <option defaultValue={'1'} >All Jobs</option>
                 <option value="1">Full Time</option>
                 <option value="2">Part Time</option>
                 <option value="3">Fixed Term</option>
