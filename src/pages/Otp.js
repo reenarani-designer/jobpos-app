@@ -11,8 +11,8 @@ function OtpSec(props) {
   const [confirmOtp, setconfirmOtp] = useState("");
   const navigate = useNavigate();
   const verifyOtp = () => {
-    alert(confirmOtp);
-    alert(phoneNumber);
+    //alert(confirmOtp);
+    //alert(phoneNumber);
     axios
       .post("http://112.196.98.174:3000/api/v1/login", {
         phone: phoneNumber,
@@ -20,7 +20,7 @@ function OtpSec(props) {
       })
       .then(function (response) {
         if (response.data.code === 200) {
-          console.log(response.data);
+        //  console.log(response.data);
           localStorage.setItem("jbcred", JSON.stringify({
             acesstoken: response.data.accessToken,
             uid: response.data.data._id,

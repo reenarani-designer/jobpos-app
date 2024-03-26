@@ -25,7 +25,7 @@ const AuthProvider = (props) => {
       })
       .then(function (response) {
         var userdetails = response.data.data;
-        setUsercred({...userdetails});
+        setUsercred({ ...userdetails, acesstoken: detail.acesstoken });
       })
       .catch(function (error) {
         alert("unable to get user details");

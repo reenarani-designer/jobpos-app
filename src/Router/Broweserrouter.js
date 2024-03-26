@@ -19,9 +19,9 @@ import AdminLogin from "../pages/Adminlogin";
 import EmployerProfile from "../pages/Employerprofile";
 import AllUsers from "../pages/Allusers";
 import ChatBox from "../pages/Chat";
+import LoadingScreen from "../pages/Loadingscreen";
 function MenuRouter() {
 const {credential} = useContext(AuthContext);
- 
   return (
     <>
       <BrowserRouter>
@@ -43,6 +43,7 @@ const {credential} = useContext(AuthContext);
             <Route path="/adminlogin" element={<AdminLogin />} />
             <Route path="/allusers" element={<AllUsers />} />
             <Route path="/chatbox" element={<ChatBox />} />
+            <Route path="/loadingscreen" element={<LoadingScreen />} />
           </Route>
         </Routes>
       </BrowserRouter>
