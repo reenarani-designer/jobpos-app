@@ -7,10 +7,10 @@ function LoadingScreen() {
     setIsloading(false);
   }, 2000);
  }, []);
-  if (isLoading){
-   <LoadingEffect></LoadingEffect>
-   console.log(isLoading);
-  }
+  // if (isLoading){
+  //  <LoadingEffect></LoadingEffect>
+  //  console.log(isLoading);
+  // }
     return(
         <>
         <LoadingEffect></LoadingEffect>

@@ -7,8 +7,6 @@ import { AuthContext } from "../context/AuthContext";
 
 function EmployeeHeader() {
   const credential = useContext(AuthContext);
-  //console.log(credential.credential.profile.url);
-  //console.log(credential);
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
@@ -44,28 +42,28 @@ function EmployeeHeader() {
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item dropdown">
               <Link
                 to="/"
-                className="nav-item"
+                className="nav-link dropdown-toggle"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                 {credential.credential.name}
-              </Link>
-              <ul className="dropdown-menu dropdown-menu-lg-end">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    {<img
+                {<img
                       src={credential.credential.profile.url}
                       className="img-fluid rounded-circle border user_img me-1"
                     /> }
-                    {credential.credential.name}
+                 {credential.credential.name}
+              </Link>
+              <ul className="dropdown-menu dropdown-menu-lg-end">
+                  <li>
+                  <a className="dropdown-item" href="/employeeprofile">
+                    Update Profile
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/employeeprofile">
-                    Update Profile
+                  <a className="dropdown-item" href="/">
+                    Logout
                   </a>
                 </li>
               </ul>
