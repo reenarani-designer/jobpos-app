@@ -21,32 +21,37 @@ import AllUsers from "../pages/Allusers";
 import ChatBox from "../pages/Chat";
 import LoadingScreen from "../pages/Loadingscreen";
 function MenuRouter() {
-const {credential} = useContext(AuthContext);
+  const { credential, isLoading } = useContext(AuthContext);
+console.log(isLoading);
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Container />}>
-            <Route index element={credential ? <Alljobs />: <Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/otp" element={<Otp />} />
-            <Route path="/employeeprofile" element={<EmployeeProfile />} />
-            <Route path="/employerprofile" element={<EmployerProfile />} />
-            <Route path="/jobdetails" element={<JobDetails />} />
-            <Route path="/employerjoblist" element={<EmployerJoblist />} />
-            <Route path="/addjob" element={<Addjob />} />
-            <Route path="/alljobs" element={<Alljobs />} />
-            <Route path="/appliedjobs" element={<AppliedJobs />} />
-            <Route path="/recommendedjobs" element={<RecommondedJobs />} />
-            <Route path="/updatejob" element={<UpdateJob />} />
-            <Route path="/adminlogin" element={<AdminLogin />} />
-            <Route path="/allusers" element={<AllUsers />} />
-            <Route path="/chatbox" element={<ChatBox />} />
-            <Route path="/loadingscreen" element={<LoadingScreen />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Container />}>
+              <Route index element={credential ? <Alljobs /> : <Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/otp" element={<Otp />} />
+              <Route path="/employeeprofile" element={<EmployeeProfile />} />
+              <Route path="/employerprofile" element={<EmployerProfile />} />
+              <Route path="/jobdetails" element={<JobDetails />} />
+              <Route path="/employerjoblist" element={<EmployerJoblist />} />
+              <Route path="/addjob" element={<Addjob />} />
+              <Route path="/alljobs" element={<Alljobs />} />
+              <Route path="/appliedjobs" element={<AppliedJobs />} />
+              <Route path="/recommendedjobs" element={<RecommondedJobs />} />
+              <Route path="/updatejob" element={<UpdateJob />} />
+              <Route path="/adminlogin" element={<AdminLogin />} />
+              <Route path="/allusers" element={<AllUsers />} />
+              <Route path="/chatbox" element={<ChatBox />} />
+              <Route path="/loadingscreen" element={<LoadingScreen />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      )}
     </>
   );
 }

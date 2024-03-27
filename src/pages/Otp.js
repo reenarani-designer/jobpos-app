@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useLocation } from "react-router-dom";
 import slide1 from "./slide1.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 function OtpSec(props) {
   const locationData = useLocation();
-  //  console.log(locationData.state.phoneNumber);
-  const phoneNumber = locationData.state.phoneNumber;
+  console.log(locationData);
+  const { checkLogin, setIsLoading } = useContext(AuthContext);
+
+  const phoneNumber =
+    locationData.state !== null ? locationData.state.phoneNumber : "";
   const [confirmOtp, setconfirmOtp] = useState("");
   const navigate = useNavigate();
   const verifyOtp = () => {
-    //alert(confirmOtp);
-    //alert(phoneNumber);
     axios
       .post("http://112.196.98.174:3000/api/v1/login", {
         phone: phoneNumber,
@@ -20,16 +22,19 @@ function OtpSec(props) {
       })
       .then(function (response) {
         if (response.data.code === 200) {
-        //  console.log(response.data);
-          localStorage.setItem("jbcred", JSON.stringify({
-            acesstoken: response.data.accessToken,
-            uid: response.data.data._id,
-          }));
-          navigate("/alljobs", {
-            state: {
-              //phoneNumber: phoneNumber
-            },
-          });
+          //  console.log(response.data);
+          localStorage.setItem(
+            "jbcred",
+            JSON.stringify({
+              acesstoken: response.data.accessToken,
+              uid: response.data.data._id,
+            })
+          );
+          setIsLoading(true); 
+          checkLogin();
+          setTimeout(function () {
+            navigate("/alljobs");
+          }, 5000);
         } else {
           alert("unable to generate OTP 1");
         }
