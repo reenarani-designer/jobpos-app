@@ -7,9 +7,6 @@ export const AuthContext = createContext({
   setIsLoading: () => {},
   checkLogin: () => {},
 });
-export const SkillContext = createContext({
-  skillDetails: () => {},
-});
 const AuthProvider = (props) => {
   const [userCred, setUsercred] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,13 +17,11 @@ const AuthProvider = (props) => {
     var jbcred = localStorage.getItem("jbcred");
     if (jbcred != null) {
       let details = JSON.parse(jbcred);
-      // console.log(details);
       getUser(details);
     } else {
       setIsLoading(false);
     }
-  };
-  //console.log(userCred);
+  }; 
   const getUser = (detail) => {
     axios
       .get("http://112.196.98.174:3000/api/v1/user/" + detail.uid, {

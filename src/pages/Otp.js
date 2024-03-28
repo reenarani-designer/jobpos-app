@@ -7,7 +7,7 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 function OtpSec(props) {
   const locationData = useLocation();
-  console.log(locationData);
+  //console.log(locationData);
   const { checkLogin, setIsLoading } = useContext(AuthContext);
 
   const phoneNumber =

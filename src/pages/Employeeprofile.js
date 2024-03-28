@@ -2,7 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import LoadingEffect from "./Loadingeffect";
+import { SkillContext } from "../context/SkillContext";
+import CustomButton from "../UIComponent/CustomButton";
 const defaultValues = {
   name: "",
   email: "",
@@ -20,13 +21,14 @@ const defaultValues = {
 };
 function EmployeeProfile(props) {
   const credential = useContext(AuthContext);
+  const {skillList} = useContext(SkillContext);
   var userDetail =
     credential.credential !== null ? credential.credential : defaultValues;
   const [profileDetails, setprofileDetails] = useState(
     credential.credential !== null ? credential.credential : defaultValues
   );
-  console.log(credential.credential);
-  console.log(profileDetails);
+  //console.log(credential.credential);
+  console.log(skillList);
   const updateDetails = () => {
     axios
       .put(
@@ -118,6 +120,7 @@ function EmployeeProfile(props) {
               id="phonenumber"
               aria-describedby="phonenumber"
               name="phone"
+              disabled
               value={profileDetails.phone}
               onChange={inputHandler}
             />
@@ -154,30 +157,14 @@ function EmployeeProfile(props) {
             <label htmlFor="skills" className="form-label">
               Skills
             </label>
-            <input
-              type="text"
-              className="form-control"
-              id="skills"
-              aria-describedby="skills"
-              name="skills"
-              value={profileDetails.skills}
-              onChange={inputHandler}
-            />
-          </div>
-
-          {/* <div className="mb-3">
-            <label htmlFor="skills" className="form-label">
-              Skills
-            </label>
-            <select
-              className="form-select"
-              aria-label="Select for skills"
-            >
-              <option value={setSkills}>Select an option</option>
-              <option value="1">Flexibility</option>
-              <option value="2">Problem-solving skills</option>
-            </select>
-          </div> */}
+            <select className="form-select" multiple >
+              {skillList.map((skill) => (
+                <option value={skill._id}>
+                 {skill.name}
+                </option>
+              ))}
+            </select> 
+          </div> 
           <div className="mb-3">
             <label htmlFor="location" className="form-label">
               Location
@@ -275,20 +262,7 @@ function EmployeeProfile(props) {
               value={profileDetails.country}
               onChange={inputHandler}
             />
-          </div>
-          {/* <div className="mb-4">
-            <label htmlFor="acctype" className="form-label">
-              Account Type
-            </label>
-             <select
-              className="form-select"
-              aria-label="Select for acctype"
-            >
-              <option selected>Select an option</option>
-              <option value="1">Jobseeker</option>
-              <option value="2">Employer</option>
-            </select> 
-          </div>*/}
+          </div> 
           <div>
             <button
               type="button"
@@ -300,6 +274,7 @@ function EmployeeProfile(props) {
             <button type="reset" className="btn btn-secondary ms-2">
               Cancel
             </button>
+            <CustomButton></CustomButton>
           </div>
         </form>
       </div>

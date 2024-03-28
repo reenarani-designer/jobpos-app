@@ -6,8 +6,7 @@ import { Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function DefaultHeader() {
-  const credential = useContext(AuthContext);
-  //console.log(credential);
+  const credential = useContext(AuthContext); 
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">

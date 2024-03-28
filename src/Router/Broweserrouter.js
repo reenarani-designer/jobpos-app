@@ -20,14 +20,16 @@ import EmployerProfile from "../pages/Employerprofile";
 import AllUsers from "../pages/Allusers";
 import ChatBox from "../pages/Chat";
 import LoadingScreen from "../pages/Loadingscreen";
+import SkillProvider from "../context/SkillContext";
 function MenuRouter() {
   const { credential, isLoading } = useContext(AuthContext);
-console.log(isLoading);
+//console.log(isLoading);
   return (
     <>
       {isLoading ? (
         <LoadingScreen />
       ) : (
+        <SkillProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Container />}>
@@ -51,6 +53,7 @@ console.log(isLoading);
             </Route>
           </Routes>
         </BrowserRouter>
+        </SkillProvider>
       )}
     </>
   );
