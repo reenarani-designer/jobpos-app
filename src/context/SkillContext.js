@@ -12,6 +12,9 @@ const SkillProvider = (props) => {
     getSkills();
   }, []); 
   const getSkills = () => {
+    if(!credential) {
+      return;
+      }
     axios
       .get("http://112.196.98.174:3000/api/v1/skill", {
         headers: { Authorization: `Bearer ${credential.acesstoken}` },

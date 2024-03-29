@@ -79,7 +79,7 @@ function EmployeeProfile(props) {
     <>
       <div className="container p-5 my-5 bg-light">
         <h1>Job Seeker Profile</h1>
-        <form>
+        <form name="employeedetails">
           <div className="row mb-3">
             <div className="col">
               <label htmlFor="uname" className="form-label">
@@ -159,7 +159,7 @@ function EmployeeProfile(props) {
             </label>
             <select className="form-select" multiple >
               {skillList.map((skill) => (
-                <option value={skill._id}>
+                <option key={skill._id} value={skill._id}>
                  {skill.name}
                 </option>
               ))}
