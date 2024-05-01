@@ -6,7 +6,7 @@ import { Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function DefaultHeader() {
-  const credential = useContext(AuthContext); 
+  const credential = useContext(AuthContext);
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
@@ -27,16 +27,6 @@ function DefaultHeader() {
           id="collapsibleNavbar"
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link to="/alljobs" className="nav-link">
-                Search Job
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/employerjoblist" className="nav-link">
-                For Employer
-              </Link>
-            </li>
             <li className="nav-item">
               <Link to="/about" className="nav-link">
                 About

@@ -4,17 +4,44 @@ import "./App.css";
 import "./pages/Custom.css";
 import AuthProvider, { AuthContext } from "./context/AuthContext";
 import MenuRouter from "./Router/Broweserrouter";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AuthLayout from "./pages/Auth/AuthLayout";
+import HomeSec from "./pages/Home";
+import ContactUs from "./pages/Common/Contact";
+import AboutUs from "./pages/Common/About";
+import OtpSec from "./pages/Auth/Otp";
 function App() {
   const credential = useContext(AuthContext);
-  // console.log(credential);
-  return (
-    <AuthProvider>
-      <MenuRouter></MenuRouter>
-    </AuthProvider>
-    /* Added default value: defaultValue={'DEFAULT'}  
-      on select tag to remove error on 
-      Alljobs, employerjoblist pages */
-  );
+  const routes = createBrowserRouter([
+    {
+      path: "",
+      element: <AuthLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomeSec />,
+        },
+        {
+          path: "otp",
+          element: <OtpSec />,
+        },
+        {
+          path: "contact",
+          element: <ContactUs />,
+        },
+        {
+          path: "about",
+          element: <AboutUs />,
+        },
+      ],
+    },
+    {
+      path: "/employee",
+      element: "",
+    },
+  ]);
+
+  return <RouterProvider router={routes} />;
 }
 
 export default App;

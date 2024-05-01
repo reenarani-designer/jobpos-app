@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Outlet, Link } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "./Common/Footer";
 import { AuthContext } from "../context/AuthContext";
 import DefaultHeader from "../header/Defaultheader";
 import EmployeeHeader from "../header/Employeeheader";

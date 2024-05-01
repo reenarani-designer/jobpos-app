@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useLocation } from "react-router-dom";
-import slide1 from "./slide1.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 function OtpSec(props) {
   const locationData = useLocation();
   //console.log(locationData);
@@ -52,7 +50,7 @@ function OtpSec(props) {
         <div className="row align-items-center">
           <div className="col-sm-6 text-center">
             <div className="p-5">
-              <img src={slide1} alt="slide1" className="img-fluid" />
+              <img src='./slide1.png' alt="slide1" className="img-fluid" />
               <h1 className="h2">Find a perfect job march</h1>
               <p>
                 Finding the right job can be a daunting task. But with JobPos,
