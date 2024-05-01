@@ -1,17 +1,16 @@
 import React from "react";
-import { useContext } from "react";
 import "./App.css";
 import "./pages/Custom.css";
-import AuthProvider, { AuthContext } from "./context/AuthContext";
-import MenuRouter from "./Router/Broweserrouter";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AuthLayout from "./pages/Auth/AuthLayout";
 import HomeSec from "./pages/Home";
 import ContactUs from "./pages/Common/Contact";
 import AboutUs from "./pages/Common/About";
-import OtpSec from "./pages/Auth/Otp";
+import OtpSec, { otpAction } from "./pages/Auth/Otp";
+import { loginAction } from "./pages/Auth/loginBlock";
+import EmployeeLayout from "./pages/Employee/EmployeeLayout";
+import EmployerProfile from "./pages/Employee/Employeeprofile";
 function App() {
-  const credential = useContext(AuthContext);
   const routes = createBrowserRouter([
     {
       path: "",
@@ -20,10 +19,12 @@ function App() {
         {
           index: true,
           element: <HomeSec />,
+          action: loginAction,
         },
         {
           path: "otp",
           element: <OtpSec />,
+          action: otpAction,
         },
         {
           path: "contact",
@@ -37,7 +38,13 @@ function App() {
     },
     {
       path: "/employee",
-      element: "",
+      element: <EmployeeLayout />,
+      children: [
+        {
+          index: true,
+          element: <EmployerProfile />,
+        },
+      ],
     },
   ]);
 

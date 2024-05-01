@@ -1,48 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-function OtpSec(props) {
-  const locationData = useLocation();
-  //console.log(locationData);
-  const { checkLogin, setIsLoading } = useContext(AuthContext);
+import {
+  Form,
+  useLocation,
+  useNavigate,
+  json,
+  redirect,
+} from "react-router-dom";
+import { otpRegex, validator } from "../../validations/validator";
 
+function OtpSec(props) {
+  const [isValidData, setValidData] = useState(false);
+  const locationData = useLocation();
   const phoneNumber =
     locationData.state !== null ? locationData.state.phoneNumber : "";
-  const [confirmOtp, setconfirmOtp] = useState("");
+
   const navigate = useNavigate();
-  const verifyOtp = () => {
-    axios
-      .post("http://112.196.98.174:3000/api/v1/login", {
-        phone: phoneNumber,
-        otp: confirmOtp,
-      })
-      .then(function (response) {
-        if (response.data.code === 200) {
-          //  console.log(response.data);
-          localStorage.setItem(
-            "jbcred",
-            JSON.stringify({
-              acesstoken: response.data.accessToken,
-              uid: response.data.data._id,
-            })
-          );
-          setIsLoading(true); 
-          checkLogin();
-          setTimeout(function () {
-            navigate("/alljobs");
-          }, 5000);
-        } else {
-          alert("unable to generate OTP 1");
-        }
-      })
-      .catch(function (error) {
-        alert("unable to generate OTP 2");
-      });
-  };
+  useEffect(() => {
+    if (!phoneNumber) {
+      navigate("/");
+    }
+  }, [phoneNumber]);
+
   const inputHandler = (e) => {
-    setconfirmOtp(e.target.value);
+    setValidData(validator(otpRegex, e.target.value));
   };
   return (
     <>
@@ -50,7 +31,7 @@ function OtpSec(props) {
         <div className="row align-items-center">
           <div className="col-sm-6 text-center">
             <div className="p-5">
-              <img src='./slide1.png' alt="slide1" className="img-fluid" />
+              <img src="./slide1.png" alt="slide1" className="img-fluid" />
               <h1 className="h2">Find a perfect job march</h1>
               <p>
                 Finding the right job can be a daunting task. But with JobPos,
@@ -61,7 +42,7 @@ function OtpSec(props) {
           <div className="col-sm-6">
             <div className="bg-light p-5 text-left">
               <h2 className="h4">Enter verification code</h2>
-              <form>
+              <Form method="POST">
                 <div className="mb-3 mt-3">
                   <label htmlFor="phone" className="form-label">
                     We have sent OTP on your registered number
@@ -72,19 +53,18 @@ function OtpSec(props) {
                       className="form-control ms-1"
                       id="otp"
                       name="otp"
-                      value={confirmOtp}
                       onChange={inputHandler}
                     />
                   </div>
                 </div>
+                <input type="hidden" name="phone" defaultValue={phoneNumber} />
                 <button
-                  type="button"
-                  onClick={verifyOtp}
+                  disabled={!isValidData}
                   className="btn btn-primary w-100"
                 >
                   Verify
                 </button>
-              </form>
+              </Form>
             </div>
           </div>
         </div>
@@ -93,3 +73,24 @@ function OtpSec(props) {
   );
 }
 export default OtpSec;
+
+export const otpAction = async ({ request }) => {
+  const formData = await request.formData();
+  const response = await fetch("http://112.196.98.174:3000/api/v1/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      phone: formData.get("phone"),
+      otp: formData.get("otp"),
+    }),
+  });
+
+  if (!response.ok) {
+    throw json({ message: "Unable to verify OTP" }, { status: 500 });
+  }
+  const loginData = await response.json();
+  localStorage.setItem("jbToken", loginData.accessToken);
+  return redirect("/employee");
+};

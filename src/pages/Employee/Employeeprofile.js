@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
-import { SkillContext } from "../context/SkillContext";
-import CustomButton from "../UIComponent/CustomButton";
+import { AuthContext } from "../../context/AuthContext";
+import { SkillContext } from "../../context/SkillContext";
+import CustomButton from "../../UIComponent/CustomButton";
 const defaultValues = {
   name: "",
   email: "",
