@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "./logo.png";
-import { Outlet, Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function EmployeeHeader() {
-  const credential = useContext(AuthContext);
+  const authDetails = useSelector((state) => state.auth);
+  const userDetails = authDetails.userData;
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
@@ -49,14 +50,15 @@ function EmployeeHeader() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {<img
-                      src={credential.credential.profile.url}
-                      className="img-fluid rounded-circle border user_img me-1"
-                    /> }
-                 {credential.credential.name}
+                {userDetails && (
+                  <img
+                    src={userDetails.profile.url}
+                    className="img-fluid rounded-circle border user_img me-1"
+                  />
+                )}
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
-                  <li>
+                <li>
                   <a className="dropdown-item" href="/employeeprofile">
                     Update Profile
                   </a>

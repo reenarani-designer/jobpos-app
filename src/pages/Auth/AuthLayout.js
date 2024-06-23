@@ -1,7 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import DefaultHeader from "../../header/Defaultheader";
 import Footer from "../Common/Footer";
 const AuthLayout = () => {
+  const navigation = useNavigation();
+
   return (
     <>
       <header>
@@ -11,6 +13,8 @@ const AuthLayout = () => {
           </div>
         </div>
         <main>
+          {(navigation.state === "submitting" ||
+            navigation.state === "loading") && <p>loading</p>}
           <Outlet />
         </main>
       </header>

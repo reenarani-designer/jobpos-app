@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import "./pages/Custom.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -10,11 +10,13 @@ import OtpSec, { otpAction } from "./pages/Auth/Otp";
 import { loginAction } from "./pages/Auth/loginBlock";
 import EmployeeLayout from "./pages/Employee/EmployeeLayout";
 import EmployerProfile from "./pages/Employee/Employeeprofile";
+import { gotoUnauthPage, gotoEmployeePage } from "./util/Common";
 function App() {
   const routes = createBrowserRouter([
     {
       path: "",
       element: <AuthLayout />,
+      loader: gotoEmployeePage,
       children: [
         {
           index: true,
@@ -39,6 +41,7 @@ function App() {
     {
       path: "/employee",
       element: <EmployeeLayout />,
+      loader: gotoUnauthPage,
       children: [
         {
           index: true,

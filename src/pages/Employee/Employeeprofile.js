@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import { SkillContext } from "../../context/SkillContext";
 import CustomButton from "../../UIComponent/CustomButton";
+import { useSelector } from "react-redux";
 const defaultValues = {
   name: "",
   email: "",
@@ -18,21 +17,19 @@ const defaultValues = {
   state: "",
   postCode: "",
   country: "",
+  _id: "",
 };
 function EmployeeProfile(props) {
-  const credential = useContext(AuthContext);
-  const {skillList} = useContext(SkillContext);
-  var userDetail =
-    credential.credential !== null ? credential.credential : defaultValues;
-  const [profileDetails, setprofileDetails] = useState(
-    credential.credential !== null ? credential.credential : defaultValues
-  );
-  //console.log(credential.credential);
-  console.log(skillList);
+  const authData = useSelector((state) => state.auth);
+
+  const { skillList } = [];
+  var userDetail = authData.userData ? authData.userData : defaultValues;
+  const [profileDetails, setprofileDetails] = useState(userDetail);
+  console.log(authData);
   const updateDetails = () => {
     axios
       .put(
-        "http://112.196.98.174:3000/api/v1/user/" + credential.credential._id,
+        "http://112.196.98.174:3000/api/v1/user/" + profileDetails._id,
         {
           name: profileDetails.name,
           email: profileDetails.email,
@@ -50,7 +47,7 @@ function EmployeeProfile(props) {
         },
         {
           headers: {
-            Authorization: `Bearer ${credential.credential.acesstoken}`,
+            Authorization: `Bearer ${authData.acesstoken}`,
           },
         }
       )
@@ -157,14 +154,14 @@ function EmployeeProfile(props) {
             <label htmlFor="skills" className="form-label">
               Skills
             </label>
-            <select className="form-select" multiple >
-              {skillList.map((skill) => (
+            <select className="form-select" multiple>
+              { /* skillList.map((skill) => (
                 <option key={skill._id} value={skill._id}>
-                 {skill.name}
+                  {skill.name}
                 </option>
-              ))}
-            </select> 
-          </div> 
+              ))*/ }
+            </select>
+          </div>
           <div className="mb-3">
             <label htmlFor="location" className="form-label">
               Location
@@ -262,7 +259,7 @@ function EmployeeProfile(props) {
               value={profileDetails.country}
               onChange={inputHandler}
             />
-          </div> 
+          </div>
           <div>
             <button
               type="button"

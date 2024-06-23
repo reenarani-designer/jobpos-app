@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "./logo.png";
-import { Outlet, Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function DefaultHeader() {
-  const credential = useContext(AuthContext);
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
