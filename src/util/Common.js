@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export const getAccessToken = () => {
   const jbToken = localStorage.getItem("jbToken");
@@ -17,4 +18,16 @@ export const gotoEmployeePage = () => {
     return redirect("/employee");
   }
   return null;
+};
+
+export const getUserId = () => {
+  const jbToken = getAccessToken();
+  if (!jbToken) {
+    return null;
+  }
+  const tokenData = jwtDecode(jbToken);
+  if (!tokenData._id) {
+    return null;
+  }
+  return tokenData._id;
 };

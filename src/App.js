@@ -11,7 +11,13 @@ import { loginAction } from "./pages/Auth/loginBlock";
 import EmployeeLayout from "./pages/Employee/EmployeeLayout";
 import EmployerProfile from "./pages/Employee/Employeeprofile";
 import { gotoUnauthPage, gotoEmployeePage } from "./util/Common";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./store/actions/Auth";
 function App() {
+  const dispatcher = useDispatch();
+  useEffect(() => {
+    dispatcher(getUser());
+  }, []);
   const routes = createBrowserRouter([
     {
       path: "",

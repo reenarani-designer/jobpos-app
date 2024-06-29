@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "./logo.png";
@@ -8,11 +8,11 @@ import { useSelector } from "react-redux";
 function EmployeeHeader() {
   const authDetails = useSelector((state) => state.auth);
   const userDetails = authDetails.userData;
+  console.log(authDetails);
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
         <Link to=".">
-          {" "}
           <img src={logo} alt="logo" className="img-flud logo" />
         </Link>
         <button
@@ -51,10 +51,13 @@ function EmployeeHeader() {
                 aria-expanded="false"
               >
                 {userDetails && (
-                  <img
-                    src={userDetails.profile.url}
-                    className="img-fluid rounded-circle border user_img me-1"
-                  />
+                  <>
+                    <img
+                      src={userDetails.profile.url}
+                      className="img-fluid rounded-circle border user_img me-1"
+                    />
+                    {userDetails.name ? userDetails.name : "Hi There"}
+                  </>
                 )}
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
