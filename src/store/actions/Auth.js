@@ -1,15 +1,16 @@
 import { getAccessToken, getUserId } from "../../util/Common";
 import { authActions } from "../slices/Auth";
+import { config } from "../../util/Configuration";
 
-const sendRequest = async () => {
+const sendRequest = async (dispatcher) => {
   const userId = getUserId(),
     token = getAccessToken();
   if (!token || !userId) {
     return null;
   }
-
+  dispatcher(authActions.setIsLoading({ isLoading: true }));
   const response = await fetch(
-    `http://112.196.98.174:3000/api/v1/user/${userId}`,
+    config.login + userId,
     {
       method: "GET",
       headers: {
@@ -22,12 +23,13 @@ const sendRequest = async () => {
     return null;
   }
   const res = await response.json();
+  dispatcher(authActions.setIsLoading({ isLoading: false }));
   return res.data;
 };
 
 export const getUser = () => {
   return async (dispatcher) => {
-    const data = await sendRequest();
+    const data = await sendRequest(dispatcher);
     dispatcher(authActions.login({ userData: data }));
   };
 };

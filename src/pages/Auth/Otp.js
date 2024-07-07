@@ -6,16 +6,18 @@ import {
   useNavigate,
   json,
   redirect,
+  useActionData,
 } from "react-router-dom";
 import { otpRegex, validator } from "../../validations/validator";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/slices/Auth";
 
 function OtpSec(props) {
   const [isValidData, setValidData] = useState(false);
+  const navigate = useNavigate();
   const locationData = useLocation();
   const phoneNumber =
     locationData.state !== null ? locationData.state.phoneNumber : "";
-
-  const navigate = useNavigate();
   useEffect(() => {
     if (!phoneNumber) {
       navigate("/");
@@ -92,5 +94,8 @@ export const otpAction = async ({ request }) => {
   }
   const loginData = await response.json();
   localStorage.setItem("jbToken", loginData.accessToken);
-  return redirect("/employee");
+  return {
+    success: true,
+    userData: loginData.data
+  };
 };

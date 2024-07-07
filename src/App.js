@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import "./pages/Custom.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, redirect } from "react-router-dom";
 import AuthLayout from "./pages/Auth/AuthLayout";
 import HomeSec from "./pages/Home";
 import ContactUs from "./pages/Common/Contact";
@@ -13,11 +13,19 @@ import EmployerProfile from "./pages/Employee/Employeeprofile";
 import { gotoUnauthPage, gotoEmployeePage } from "./util/Common";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./store/actions/Auth";
+import { authActions } from "./store/slices/Auth";
+import LoadingEffect from "./pages/Loadingeffect";
 function App() {
   const dispatcher = useDispatch();
+  const isLoading = useSelector((state) => state.auth.isLoading);
   useEffect(() => {
     dispatcher(getUser());
   }, []);
+  if (isLoading) {
+    return (
+      <LoadingEffect />
+    );
+  }
   const routes = createBrowserRouter([
     {
       path: "",
@@ -32,7 +40,15 @@ function App() {
         {
           path: "otp",
           element: <OtpSec />,
-          action: otpAction,
+          id: 'otp',
+          action: async (meta) => {
+            const res = await otpAction(meta);
+            if (res && res.success) {
+              dispatcher(authActions.login({ userData: res.userData }));
+              return redirect('/employee')
+            }
+            return null;
+          },
         },
         {
           path: "contact",

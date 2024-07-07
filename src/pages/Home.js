@@ -1,9 +1,7 @@
 import React from "react";
-import { useActionData, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginBlock from "./Auth/loginBlock";
 function HomeSec() {
-  
   return (
     <>
       <div className="container pt-3 pb-3">
