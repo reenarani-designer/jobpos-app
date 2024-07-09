@@ -10,7 +10,7 @@ const sendRequest = async (dispatcher) => {
   }
   dispatcher(authActions.setIsLoading({ isLoading: true }));
   const response = await fetch(
-    config.login + userId,
+    config.userProfile + userId,
     {
       method: "GET",
       headers: {

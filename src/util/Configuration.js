@@ -1,5 +1,7 @@
-const host = 'http://112.196.98.174:3000';
+const host = "http://112.196.98.174:3000";
 
 export const config = {
-    login: `${host}/api/v1/user/`
-}
+  userProfile: `${host}/api/v1/user/`,
+  otp: `${host}/api/v1/login`,
+  skills: `${host}/api/v1/skill`,
+};

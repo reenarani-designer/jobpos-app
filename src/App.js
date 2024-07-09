@@ -15,11 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./store/actions/Auth";
 import { authActions } from "./store/slices/Auth";
 import LoadingEffect from "./pages/Loadingeffect";
+import { getSkills } from "./store/actions/Skills";
 function App() {
   const dispatcher = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
   useEffect(() => {
     dispatcher(getUser());
+    dispatcher(getSkills());
   }, []);
   if (isLoading) {
     return (

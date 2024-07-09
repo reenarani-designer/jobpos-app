@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Form,
-  useLocation,
-  useNavigate,
-  json,
-  redirect,
-  useActionData,
-} from "react-router-dom";
+import { Form, useLocation, useNavigate, json } from "react-router-dom";
 import { otpRegex, validator } from "../../validations/validator";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store/slices/Auth";
+import { config } from "../../util/Configuration";
 
 function OtpSec(props) {
   const [isValidData, setValidData] = useState(false);
@@ -78,7 +70,7 @@ export default OtpSec;
 
 export const otpAction = async ({ request }) => {
   const formData = await request.formData();
-  const response = await fetch("http://112.196.98.174:3000/api/v1/login", {
+  const response = await fetch(config.otp, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -96,6 +88,6 @@ export const otpAction = async ({ request }) => {
   localStorage.setItem("jbToken", loginData.accessToken);
   return {
     success: true,
-    userData: loginData.data
+    userData: loginData.data,
   };
 };
