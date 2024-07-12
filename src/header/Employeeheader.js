@@ -28,7 +28,13 @@ function EmployeeHeader() {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/alljobs" className="nav-link">
+              <Link to="/employer/add-job" className="nav-link">
+                Add Jobs
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/employee/jobs" className="nav-link">
                 Jobs
               </Link>
             </li>
@@ -50,6 +56,8 @@ function EmployeeHeader() {
                     <img
                       src={userDetails.profile.url}
                       className="img-fluid rounded-circle border user_img me-1"
+                      alt={userDetails.name}
+                      title={userDetails.name}
                     />
                     {userDetails.name ? userDetails.name : "Hi There"}
                   </>

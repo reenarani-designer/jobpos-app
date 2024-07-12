@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import "./pages/Custom.css";
-import { RouterProvider, createBrowserRouter, redirect } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  redirect,
+} from "react-router-dom";
 import AuthLayout from "./pages/Auth/AuthLayout";
 import HomeSec from "./pages/Home";
 import ContactUs from "./pages/Common/Contact";
@@ -16,17 +20,18 @@ import { getUser } from "./store/actions/Auth";
 import { authActions } from "./store/slices/Auth";
 import LoadingEffect from "./pages/Loadingeffect";
 import { getSkills } from "./store/actions/Skills";
+import AddJob from "./pages/Employer/Addjob";
+import Alljobs from "./pages/Alljobs";
 function App() {
   const dispatcher = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
+  const isSkillsLoading = useSelector((state) => state.skills.isLoading);
   useEffect(() => {
     dispatcher(getUser());
     dispatcher(getSkills());
   }, []);
-  if (isLoading) {
-    return (
-      <LoadingEffect />
-    );
+  if (isLoading || isSkillsLoading) {
+    return <LoadingEffect />;
   }
   const routes = createBrowserRouter([
     {
@@ -42,12 +47,12 @@ function App() {
         {
           path: "otp",
           element: <OtpSec />,
-          id: 'otp',
+          id: "otp",
           action: async (meta) => {
             const res = await otpAction(meta);
             if (res && res.success) {
               dispatcher(authActions.login({ userData: res.userData }));
-              return redirect('/employee')
+              return redirect("/employee");
             }
             return null;
           },
@@ -70,6 +75,25 @@ function App() {
         {
           index: true,
           element: <EmployerProfile />,
+        },
+        {
+          path: 'jobs',
+          element: <Alljobs />
+        }
+      ],
+    },
+    {
+      path: "/employer",
+      element: <EmployeeLayout />,
+      loader: gotoUnauthPage,
+      children: [
+        {
+          index: true,
+          element: <EmployerProfile />,
+        },
+        {
+          path: "add-job",
+          element: <AddJob />,
         },
       ],
     },

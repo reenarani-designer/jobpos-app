@@ -39,8 +39,8 @@ nav ul li {
 }
 
 .user_img {
-    width: 30px;
-    height: 30px;
+    aspect-ratio: 1/1;
+    max-height: 30px;
     object-fit: contain;
 }
 

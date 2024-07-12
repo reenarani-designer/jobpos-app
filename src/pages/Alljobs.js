@@ -1,5 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { config } from "../util/Configuration";
+import { getAccessToken } from "../util/Common";
+import { JobCard } from "../UIComponent/Cards";
 function Alljobs() {
+  const token = getAccessToken();
+  const [jobs, setJobs] = useState([]);
+  const [totalJobs, setTotalJobs] = useState(0);
+  const getJobListing = async () => {
+    const response = await fetch(`${config.jobSearch}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      setJobs([]);
+      setTotalJobs(0);
+    }
+    const data = await response.json();
+    setJobs(data.data.jobs);
+    setTotalJobs(data.data.total);
+  };
+
+  useEffect(() => {
+    getJobListing();
+  }, []);
+  console.log(jobs);
+
   return (
     <>
       <div className="container-fluid bg-light text-center py-5">
@@ -47,7 +76,7 @@ function Alljobs() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option defaultValue={'1'} >All Categories</option>
+                <option defaultValue={"1"}>All Categories</option>
                 <option value="1">Cleaning</option>
                 <option value="2">Plumber</option>
                 <option value="3">Electrician</option>
@@ -61,7 +90,7 @@ function Alljobs() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option defaultValue={'1'} >All Jobs</option>
+                <option defaultValue={"1"}>All Jobs</option>
                 <option value="1">Full Time</option>
                 <option value="2">Part Time</option>
                 <option value="3">Fixed Term</option>
@@ -76,81 +105,13 @@ function Alljobs() {
           </div>
           <div className="col-sm-8">
             {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Plumber</h2>
-              <span className="badge bg-success">Water Tank</span>{" "}
-              <span className="badge bg-warning">Tap & Mixer</span>{" "}
-              <span className="badge bg-danger">Water Filter</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
+            {jobs &&
+              jobs.map((jobDetails) => {
+                return <JobCard key={jobDetails._id} jobDetails={jobDetails} />;
+              })}
+
             {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Electrician</h2>
-              <span className="badge bg-secondary">AC Repair</span>{" "}
-              <span className="badge bg-primary">Television</span>{" "}
-              <span className="badge bg-danger">Washing Machine</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Plumber</h2>
-              <span className="badge bg-success">Water Tank</span>{" "}
-              <span className="badge bg-warning">Tap & Mixer</span>{" "}
-              <span className="badge bg-danger">Water Filter</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Electrician</h2>
-              <span className="badge bg-secondary">AC Repair</span>{" "}
-              <span className="badge bg-primary">Television</span>{" "}
-              <span className="badge bg-danger">Washing Machine</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
+
             {/* START: Pagination */}
             <nav aria-label="Page navigation example" className="mt-5">
               <ul className="pagination justify-content-center">
@@ -189,7 +150,7 @@ function Alljobs() {
                 </li>
               </ul>
             </nav>
-             {/* END: Pagination */}
+            {/* END: Pagination */}
           </div>
         </div>
       </div>

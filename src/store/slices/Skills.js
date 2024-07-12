@@ -4,8 +4,8 @@ const SkillSlice = createSlice({
   name: "skills",
   initialState: { skills: [], isLoading: false },
   reducers: {
-    setSkills(state, payload) {
-      state.skills = payload.action.skills;
+    setSkills(state, action) {
+      state.skills = action.payload.skills;
     },
     setIsLoading(state, action) {
       state.isLoading = action.payload.isLoading;

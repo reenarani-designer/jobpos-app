@@ -1,7 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
-import { FormInput, FormInputDefault } from "../../UIComponent/FormControl";
+import {
+  FormInput,
+  FormInputDefault,
+  CustomCheckBox,
+} from "../../UIComponent/FormControl";
 import { config } from "../../util/Configuration";
 import { getAccessToken } from "../../util/Common";
 
@@ -28,6 +32,11 @@ function EmployeeProfile(props) {
   const userDetail = authData.userData ? authData.userData : defaultValues;
   const [profileDetails, setprofileDetails] = useState(userDetail);
   const [userProfileURL, setUserProfileURL] = useState("");
+  const skills = useSelector((state) => state.skills.skills);
+
+  let preSelectedList = profileDetails.skills.map((item) => item._id);
+  var selectedSkills = preSelectedList;
+
   const inputFileHandler = (event) => {
     let file = event.target.files[0];
     if (file) {
@@ -43,7 +52,7 @@ function EmployeeProfile(props) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token} `,
       },
       body: JSON.stringify({
         name: profileDetails.name,
@@ -57,6 +66,7 @@ function EmployeeProfile(props) {
         state: profileDetails.state,
         postCode: profileDetails.postCode,
         country: profileDetails.country,
+        skills: selectedSkills,
       }),
     });
     if (!response.ok) {
@@ -68,8 +78,8 @@ function EmployeeProfile(props) {
     }
   };
   const uploadUserImage = async () => {
-    const response = await fetch(config.userProfile + profileDetails._id, {
-      method: "PUT",
+    const response = await fetch(config.userImage + profileDetails._id, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -95,6 +105,25 @@ function EmployeeProfile(props) {
       };
     });
   };
+
+  const handleSkills = (e) => {
+    if (e.target.checked) {
+      selectedSkills.push(e.target.value);
+    } else {
+      const filteredItem = selectedSkills.filter(function (skill) {
+        return skill !== e.target.value;
+      });
+      selectedSkills = filteredItem;
+    }
+  };
+
+  function formatDate(dateString) {
+    const d = new Date(dateString);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <>
@@ -135,11 +164,12 @@ function EmployeeProfile(props) {
               </div>
 
               <FormInput
-                label="DOB"
+                label="DOB(MM/DD/YYYY)"
                 type="date"
                 id="dob"
-                value={profileDetails.dob}
+                value={formatDate(profileDetails.dob)}
                 name="dob"
+                max={formatDate(new Date())}
                 onChange={inputHandler}
               />
 
@@ -231,16 +261,21 @@ function EmployeeProfile(props) {
 
               <div className="mb-3">
                 <label htmlFor="skills" className="form-label">
-                  Skills
+                  Select Your Skills <small>(Skills is required if you want to apply for a job)</small>
                 </label>
-                <select className="form-select" multiple>
-                  {skillList &&
-                    skillList.map((skill) => (
-                      <option key={skill._id} value={skill._id}>
-                        {skill.name}
-                      </option>
+                <div className="d-inline-column mb-3">
+                  {skills &&
+                    skills.map((skill) => (
+                      <CustomCheckBox
+                        key={skill._id}
+                        label={skill.name}
+                        id={skill._id}
+                        value={skill._id}
+                        onChange={handleSkills}
+                        preSelectedList={preSelectedList}
+                      />
                     ))}
-                </select>
+                </div>
               </div>
             </div>
             <div className="col-12">
