@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { config } from "../util/Configuration";
-import { getAccessToken } from "../util/Common";
-import { JobCard } from "../UIComponent/Cards";
+import { config } from "../../util/Configuration";
+import { getAccessToken } from "../../util/Common";
+import { JobCard } from "../../UIComponent/Cards";
+import { Pagination } from "../../UIComponent/Pagination";
 function Alljobs() {
   const token = getAccessToken();
   const [jobs, setJobs] = useState([]);
@@ -113,43 +114,7 @@ function Alljobs() {
             {/* END: List Item */}
 
             {/* START: Pagination */}
-            <nav aria-label="Page navigation example" className="mt-5">
-              <ul className="pagination justify-content-center">
-                <li className="page-item disabled">
-                  <a className="page-link">Previous</a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    3
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    4
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    5
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Pagination totalRecords={totalJobs} currentPage={1} pageLimit={1} />
             {/* END: Pagination */}
           </div>
         </div>

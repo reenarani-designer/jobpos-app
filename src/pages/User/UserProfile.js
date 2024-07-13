@@ -25,7 +25,7 @@ const defaultValues = {
   country: "",
   _id: "",
 };
-function EmployeeProfile(props) {
+function UserProfile(props) {
   const authData = useSelector((state) => state.auth);
   const { skillList } = [];
   const token = getAccessToken();
@@ -293,4 +293,4 @@ function EmployeeProfile(props) {
     </>
   );
 }
-export default EmployeeProfile;
+export default UserProfile;

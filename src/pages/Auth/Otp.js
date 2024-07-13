@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, useLocation, useNavigate, json } from "react-router-dom";
 import { otpRegex, validator } from "../../validations/validator";
 import { config } from "../../util/Configuration";
+import { FormInput } from "../../UIComponent/FormControl";
 
 function OtpSec(props) {
   const [isValidData, setValidData] = useState(false);
@@ -37,20 +38,18 @@ function OtpSec(props) {
             <div className="bg-light p-5 text-left">
               <h2 className="h4">Enter verification code</h2>
               <Form method="POST">
-                <div className="mb-3 mt-3">
-                  <label htmlFor="phone" className="form-label">
+                <FormInput
+                  label="OTP"
+                  type="text"
+                  id="otp"
+                  name="otp"
+                  onChange={inputHandler}
+                />
+                <p>
+                  <small className="text-muted">
                     We have sent OTP on your registered number
-                  </label>
-                  <div className="d-flex space-between">
-                    <input
-                      type="text"
-                      className="form-control ms-1"
-                      id="otp"
-                      name="otp"
-                      onChange={inputHandler}
-                    />
-                  </div>
-                </div>
+                  </small>
+                </p>
                 <input type="hidden" name="phone" defaultValue={phoneNumber} />
                 <button
                   disabled={!isValidData}

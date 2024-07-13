@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LoginBlock from "./Auth/loginBlock";
+import Login from "./Auth/Login";
 function HomeSec() {
   return (
     <>
@@ -17,7 +17,7 @@ function HomeSec() {
             </div>
           </div>
           <div className="col-sm-6">
-            <LoginBlock />
+            <Login />
           </div>
         </div>
       </div>

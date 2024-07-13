@@ -11,17 +11,17 @@ import HomeSec from "./pages/Home";
 import ContactUs from "./pages/Common/Contact";
 import AboutUs from "./pages/Common/About";
 import OtpSec, { otpAction } from "./pages/Auth/Otp";
-import { loginAction } from "./pages/Auth/loginBlock";
-import EmployeeLayout from "./pages/Employee/EmployeeLayout";
-import EmployerProfile from "./pages/Employee/Employeeprofile";
+import { loginAction } from "./pages/Auth/Login";
+import UserLayout from "./pages/User/UserLayout";
+import UserProfile from "./pages/User/UserProfile";
 import { gotoUnauthPage, gotoEmployeePage } from "./util/Common";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./store/actions/Auth";
 import { authActions } from "./store/slices/Auth";
 import LoadingEffect from "./pages/Loadingeffect";
 import { getSkills } from "./store/actions/Skills";
-import AddJob from "./pages/Employer/Addjob";
-import Alljobs from "./pages/Alljobs";
+import AddJob from "./pages/Jobs/Addjob";
+import Alljobs from "./pages/Jobs/Alljobs";
 function App() {
   const dispatcher = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -68,32 +68,17 @@ function App() {
       ],
     },
     {
-      path: "/employee",
-      element: <EmployeeLayout />,
+      path: "/user",
+      element: <UserLayout />,
       loader: gotoUnauthPage,
       children: [
         {
           index: true,
-          element: <EmployerProfile />,
+          element: <UserProfile />,
         },
         {
-          path: 'jobs',
-          element: <Alljobs />
-        }
-      ],
-    },
-    {
-      path: "/employer",
-      element: <EmployeeLayout />,
-      loader: gotoUnauthPage,
-      children: [
-        {
-          index: true,
-          element: <EmployerProfile />,
-        },
-        {
-          path: "add-job",
-          element: <AddJob />,
+          path: "jobs",
+          element: <Alljobs />,
         },
       ],
     },

@@ -2,10 +2,10 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "./logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function EmployeeHeader() {
+function UserHeader() {
   const authDetails = useSelector((state) => state.auth);
   const userDetails = authDetails.userData;
   return (
@@ -27,16 +27,50 @@ function EmployeeHeader() {
           id="collapsibleNavbar"
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link to="/employer/add-job" className="nav-link">
-                Add Jobs
+            <li className="nav-item dropdown">
+              <Link
+                to="/"
+                className="nav-link dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                For Employee
               </Link>
+              <ul className="dropdown-menu dropdown-menu-lg-end">
+                <li>
+                  <a className="dropdown-item" href="/user/jobs">
+                    Jobs
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="/user/applied-jobs">
+                    Applied Jobs
+                  </a>
+                </li>
+              </ul>
             </li>
 
-            <li className="nav-item">
-              <Link to="/employee/jobs" className="nav-link">
-                Jobs
+            <li className="nav-item dropdown">
+              <Link
+                to="/"
+                className="nav-link dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                For Employer
               </Link>
+              <ul className="dropdown-menu dropdown-menu-lg-end">
+                <li>
+                  <a className="dropdown-item" href="/user/jobs">
+                    Post Jobs
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="/user/applied-jobs">
+                    Your Posted Jobs
+                  </a>
+                </li>
+              </ul>
             </li>
 
             <li className="nav-item">
@@ -87,4 +121,4 @@ function EmployeeHeader() {
     </>
   );
 }
-export default EmployeeHeader;
+export default UserHeader;

@@ -1,13 +1,13 @@
-import EmployeeHeader from "../../header/Employeeheader";
+import UserHeader from "../../header/UserHeader";
 import Footer from "../Common/Footer";
 import { Outlet } from "react-router-dom";
-const EmployeeLayout = () => {
+const UserLayout = () => {
   return (
     <>
       <header>
         <div className="shadow-sm">
           <div className="container">
-            <EmployeeHeader></EmployeeHeader>
+            <UserHeader />
           </div>
         </div>
         <Outlet />
@@ -17,4 +17,4 @@ const EmployeeLayout = () => {
   );
 };
 
-export default EmployeeLayout;
+export default UserLayout;

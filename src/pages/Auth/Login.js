@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form, json, useNavigate, useActionData } from "react-router-dom";
 import { validator, phoneRegex } from "../../validations/validator";
-function LoginBlock() {
+import { FormInput } from "../../UIComponent/FormControl";
+function Login() {
   const [phoneError, setPhoneError] = useState(null);
   const [isValidForm, setFormVaild] = useState(false);
   const actionData = useActionData();
@@ -31,20 +32,15 @@ function LoginBlock() {
     <div className="bg-light p-5 text-left">
       <h2 className="h4">Login/Signup</h2>
       <Form method="post">
-        <div className="mb-3 mt-3">
-          <label htmlFor="phone" className="form-label">
-            Enter your phone number
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="phone"
-            placeholder="Phone Number"
-            name="phone"
-            onChange={inputHandler}
-          />
-          {phoneError && <small className="text-danger">{phoneError}</small>}
-        </div>
+        <FormInput
+          type="text"
+          id="phone"
+          placeholder="Phone Number"
+          name="phone"
+          label="Phone Number"
+          onChange={inputHandler}
+        />
+        {phoneError && <small className="text-danger">{phoneError}</small>}
         <button className="btn btn-primary w-100" disabled={!isValidForm}>
           Send OTP
         </button>
@@ -52,7 +48,7 @@ function LoginBlock() {
     </div>
   );
 }
-export default LoginBlock;
+export default Login;
 
 export const loginAction = async ({ request, param }) => {
   const formData = await request.formData();
