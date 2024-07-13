@@ -1,4 +1,4 @@
-import { getAccessToken, getUserId } from "../../util/Common";
+import { getAccessToken, getUserId, sendHttpRequest } from "../../util/Common";
 import { skillsAction } from "../slices/Skills";
 import { config } from "../../util/Configuration";
 
@@ -8,19 +8,11 @@ const sendRequest = async (dispatcher) => {
     return [];
   }
   dispatcher(skillsAction.setIsLoading({ isLoading: true }));
-  const response = await fetch(config.skills, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) {
-    return [];
-  }
-  const res = await response.json();
+  const response = await sendHttpRequest(config.skills, "GET", null, true);
+  const skills =
+    response && response.status === 200 ? response.data.data : null;
   dispatcher(skillsAction.setIsLoading({ isLoading: false }));
-  return res.data;
+  return skills;
 };
 
 export const getSkills = () => {

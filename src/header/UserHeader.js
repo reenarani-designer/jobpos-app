@@ -99,7 +99,7 @@ function UserHeader() {
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
                 <li>
-                  <a className="dropdown-item" href="/employeeprofile">
+                  <a className="dropdown-item" href="/user/profile">
                     Update Profile
                   </a>
                 </li>

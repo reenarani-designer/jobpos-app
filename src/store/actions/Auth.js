@@ -1,4 +1,4 @@
-import { getAccessToken, getUserId } from "../../util/Common";
+import { getAccessToken, getUserId, sendHttpRequest } from "../../util/Common";
 import { authActions } from "../slices/Auth";
 import { config } from "../../util/Configuration";
 
@@ -8,28 +8,26 @@ const sendRequest = async (dispatcher) => {
   if (!token || !userId) {
     return null;
   }
+
   dispatcher(authActions.setIsLoading({ isLoading: true }));
-  const response = await fetch(
+  const response = await sendHttpRequest(
     config.userProfile + userId,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    "GET",
+    null,
+    true
   );
-  if (!response.ok) {
-    return null;
-  }
-  const res = await response.json();
+  const userInfo =
+    response && response.status === 200 ? response.data.data : null;
   dispatcher(authActions.setIsLoading({ isLoading: false }));
-  return res.data;
+  return userInfo;
 };
 
 export const getUser = () => {
   return async (dispatcher) => {
     const data = await sendRequest(dispatcher);
+    if (!data) {
+      localStorage.removeItem("jbToken");
+    }
     dispatcher(authActions.login({ userData: data }));
   };
 };

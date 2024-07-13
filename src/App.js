@@ -78,7 +78,7 @@ function App() {
           element: <UserDashboard />,
         },
         {
-          index: "profile",
+          path: "profile",
           element: <UserProfile />,
         },
         {

@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { uiStateAction } from "../store/slices/UiState";
+
 const getClassForSkillBadge = (index) => {
   const skillClass = ["bg-success", "bg-warning", "bg-danger", "bg-info"];
   const className = skillClass[index % skillClass.length];
@@ -27,6 +30,49 @@ export const JobCard = (props) => {
         })}
       <p>{location}</p>
       <p>{shortDescription}</p>
+    </div>
+  );
+};
+
+export const NotificationCard = ({
+  showToast,
+  message,
+  type,
+  isClosable = true,
+}) => {
+  const toastType = type === "FAILURE" ? "bg-danger" : "bg-primary";
+  const dispatcher = useDispatch();
+  const onCloseButtonClick = () => {
+    dispatcher(
+      uiStateAction.setIsNotification({
+        isNotification: false,
+        message: null,
+        nonotificationType: null,
+      })
+    );
+  };
+  return (
+    <div
+      className={`toast toast-custom align-items-center text-white  border-0 ${
+        showToast ? "show" : "hide"
+      } ${toastType}`}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      data-bs-delay="3000"
+    >
+      <div className="d-flex">
+        <div className="toast-body">{message}</div>
+        {isClosable && (
+          <button
+            type="button"
+            className="btn-close btn-close-white me-2 m-auto"
+            //data-bs-dismiss="toast"
+            //aria-label="Close"
+            onClick={onCloseButtonClick}
+          ></button>
+        )}
+      </div>
     </div>
   );
 };

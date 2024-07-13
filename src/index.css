@@ -98,3 +98,11 @@ code {
   font-weight: 400;
   line-height: 1.2;
 }
+
+.toast-custom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1070;
+  margin: 1rem;
+}

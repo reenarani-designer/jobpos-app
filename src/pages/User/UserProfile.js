@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   FormInput,
   FormInputDefault,
   CustomCheckBox,
 } from "../../UIComponent/FormControl";
 import { config } from "../../util/Configuration";
-import { getAccessToken } from "../../util/Common";
+import { getAccessToken, sendHttpRequest } from "../../util/Common";
+import { uiStateAction } from "../../store/slices/UiState";
 
 const defaultValues = {
   name: "",
@@ -33,6 +34,7 @@ function UserProfile(props) {
   const [profileDetails, setprofileDetails] = useState(userDetail);
   const [userProfileURL, setUserProfileURL] = useState("");
   const skills = useSelector((state) => state.skills.skills);
+  const dispatcher = useDispatch();
 
   let preSelectedList = profileDetails.skills.map((item) => item._id);
   var selectedSkills = preSelectedList;
@@ -48,51 +50,63 @@ function UserProfile(props) {
     }
   };
   const updateDetails = async () => {
-    const response = await fetch(config.userProfile + profileDetails._id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token} `,
-      },
-      body: JSON.stringify({
-        name: profileDetails.name,
-        email: profileDetails.email,
-        dob: profileDetails.dob,
-        userType: "worker",
-        location: profileDetails.location,
-        lineAddress: profileDetails.lineAddress,
-        street: profileDetails.street,
-        city: profileDetails.city,
-        state: profileDetails.state,
-        postCode: profileDetails.postCode,
-        country: profileDetails.country,
-        skills: selectedSkills,
-      }),
+    const request = JSON.stringify({
+      name: profileDetails.name,
+      email: profileDetails.email,
+      dob: profileDetails.dob,
+      userType: "worker",
+      location: profileDetails.location,
+      lineAddress: profileDetails.lineAddress,
+      street: profileDetails.street,
+      city: profileDetails.city,
+      state: profileDetails.state,
+      postCode: profileDetails.postCode,
+      country: profileDetails.country,
+      skills: selectedSkills,
     });
-    if (!response.ok) {
-      //will add error alert here...
-      return;
-    }
-    if (userProfileURL) {
+    let notificationData = {
+      isNotification: true,
+      message: "Profile Updated Successfully",
+      notificationType: "SUCCESS",
+    };
+    const response = await sendHttpRequest(
+      config.userProfile + profileDetails._id,
+      "PUT",
+      request,
+      true
+    );
+
+    if (response.status === 200) {
       uploadUserImage();
+    } else {
+      notificationData.message = response.message;
+      notificationData.notificationType = "FAILURE";
     }
+    dispatcher(uiStateAction.setIsNotification(notificationData));
   };
   const uploadUserImage = async () => {
-    const response = await fetch(config.userImage + profileDetails._id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        base64image: userProfileURL,
-      }),
-    });
-    if (!response.ok) {
-      //will add error alert here...
+    if (!userProfileURL) {
       return;
     }
+    let notificationData = {
+      isNotification: true,
+      message: "Profile Picture Uploaded Successfully",
+      notificationType: "SUCCESS",
+    };
+    const response = await sendHttpRequest(
+      config.userImage + profileDetails._id,
+      "POST",
+      JSON.stringify({
+        base64image: userProfileURL,
+      }),
+      true
+    );
     setUserProfileURL("");
+    if (response.status !== 200) {
+      notificationData.message = response.message;
+      notificationData.notificationType = "FAILURE";
+    }
+    dispatcher(uiStateAction.setIsNotification(notificationData));
   };
 
   const inputHandler = (e) => {
@@ -261,7 +275,10 @@ function UserProfile(props) {
 
               <div className="mb-3">
                 <label htmlFor="skills" className="form-label">
-                  Select Your Skills <small>(Skills is required if you want to apply for a job)</small>
+                  Select Your Skills{" "}
+                  <small>
+                    (Skills is required if you want to apply for a job)
+                  </small>
                 </label>
                 <div className="d-inline-column mb-3">
                   {skills &&

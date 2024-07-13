@@ -31,3 +31,37 @@ export const getUserId = () => {
   }
   return tokenData._id;
 };
+
+export const sendHttpRequest = async (url, method, body, addAuthHeader) => {
+  const token = getAccessToken();
+  let finalResponse = {
+    status: null,
+    message: null,
+    data: null,
+  };
+  let headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (addAuthHeader) {
+    headers = { ...headers, Authorization: `Bearer ${token}` };
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: headers,
+      body: body,
+    });
+    finalResponse.status = response.status;
+    if (!response.ok) {
+      throw new Error("Service Failed");
+    }
+    const res = await response.json();
+    finalResponse.data = res;
+  } catch (error) {
+    finalResponse.message = error.message;
+  } finally {
+    return finalResponse;
+  }
+};
