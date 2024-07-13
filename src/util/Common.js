@@ -15,7 +15,7 @@ export const gotoUnauthPage = () => {
 
 export const gotoEmployeePage = () => {
   if (getAccessToken()) {
-    return redirect("/employee");
+    return redirect("/user");
   }
   return null;
 };

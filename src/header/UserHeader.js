@@ -61,12 +61,12 @@ function UserHeader() {
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
                 <li>
-                  <a className="dropdown-item" href="/user/jobs">
+                  <a className="dropdown-item" href="/user/post-job">
                     Post Jobs
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/user/applied-jobs">
+                  <a className="dropdown-item" href="/user/posted-jobs">
                     Your Posted Jobs
                   </a>
                 </li>

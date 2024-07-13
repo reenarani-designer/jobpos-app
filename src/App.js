@@ -22,6 +22,7 @@ import LoadingEffect from "./pages/Loadingeffect";
 import { getSkills } from "./store/actions/Skills";
 import AddJob from "./pages/Jobs/Addjob";
 import Alljobs from "./pages/Jobs/Alljobs";
+import UserDashboard from "./pages/User/UserDashboard";
 function App() {
   const dispatcher = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -52,7 +53,7 @@ function App() {
             const res = await otpAction(meta);
             if (res && res.success) {
               dispatcher(authActions.login({ userData: res.userData }));
-              return redirect("/employee");
+              return redirect("/user");
             }
             return null;
           },
@@ -74,11 +75,23 @@ function App() {
       children: [
         {
           index: true,
+          element: <UserDashboard />,
+        },
+        {
+          index: "profile",
           element: <UserProfile />,
         },
         {
           path: "jobs",
           element: <Alljobs />,
+        },
+        {
+          path: "post-job",
+          element: <AddJob />,
+        },
+        {
+          path: "edit-job/:id",
+          element: <AddJob />,
         },
       ],
     },
