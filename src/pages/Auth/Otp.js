@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, useLocation, useNavigate, json } from "react-router-dom";
 import { otpRegex, validator } from "../../validations/validator";
 import { config } from "../../util/Configuration";
@@ -66,7 +65,6 @@ function OtpSec(props) {
   );
 }
 export default OtpSec;
-
 export const otpAction = async ({ request }) => {
   const formData = await request.formData();
   const response = await fetch(config.otp, {

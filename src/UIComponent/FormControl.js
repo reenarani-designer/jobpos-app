@@ -1,58 +1,81 @@
 import React from "react";
-export const FormInput = (props) => {
+export const FormInput = ({ id, label, className, ...props }) => {
   return (
     <div className="mb-3 form-floating">
-      <input {...props} className="form-control form-input-custom" />
-      {props.label && (
-        <label htmlFor={props.id} className="form-label">
-          {props.label}
+      <input
+        id={id}
+        className={`form-control form-input-custom ${className}`}
+        {...props}
+      />
+      {label && (
+        <label htmlFor={id} className="form-label">
+          {label}
         </label>
       )}
-    </div>
-  );
-};
-export const FormInputDefault = (props) => {
-  return (
-    <div className="mb-3">
-      {props.label && (
-        <label htmlFor={props.id} className="form-label">
-          {props.label}
-        </label>
-      )}
-      <input {...props} className="form-control form-input-custom" />
     </div>
   );
 };
 
-export const FormSelectBox = (props) => {
+export const FormInputDefault = ({ id, label, className, ...props }) => {
   return (
     <div className="mb-3">
-      {props.label && (
-        <label htmlFor={props.id} className="form-label">
-          {props.label}
+      {label && (
+        <label htmlFor={id} className="form-label">
+          {label}
         </label>
       )}
-      <input {...props} className="form-control form-input-custom" />
+      <input
+        id={id}
+        className={`form-control form-input-custom ${className || ""}`}
+        {...props}
+      />
     </div>
   );
 };
 
-export const CustomCheckBox = (props) => {
+export const FormSelectBox = ({ id, label, options, className, ...props }) => {
+  return (
+    <div className="mb-3">
+      {label && (
+        <label htmlFor={id} className="form-label">
+          {label}
+        </label>
+      )}
+      <select
+        id={id}
+        className={`form-control form-input-custom ${className || ""}`}
+        {...props}
+      >
+        {options &&
+          options.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+      </select>
+    </div>
+  );
+};
+
+export const CustomCheckBox = ({
+  id,
+  value,
+  onChange,
+  preSelectedList,
+  label,
+}) => {
   const isSelected =
-    props.preSelectedList &&
-    props.preSelectedList.indexOf(props.value.toString()) > -1
-      ? true
-      : false;
+    preSelectedList && preSelectedList.indexOf(value.toString()) > -1;
 
   return (
     <div className="ps-0 p-1 custom-checkbox">
       <div className="custom-checkbox-wrapper">
         <input
           type="checkbox"
-          id={props.id}
-          value={props.value}
-          onChange={props.onChange}
-          defaultChecked={isSelected}
+          id={id}
+          value={value}
+          onChange={onChange}
+          checked={isSelected}
         />
         <svg viewBox="0 0 35.6 35.6">
           <circle className="background" cx="17.8" cy="17.8" r="17.8"></circle>
@@ -63,19 +86,20 @@ export const CustomCheckBox = (props) => {
           ></polyline>
         </svg>
       </div>
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 };
 
-export const FormTextArea = (props) => {
+export const FormTextArea = ({ id, label, className, ...props }) => {
   return (
     <div className="form-floating mb-3">
-      <textarea 
-        className="form-control form-textarea-custom"
+      <textarea
+        id={id}
+        className={`form-control form-textarea-custom ${className || ""}`}
         {...props}
       ></textarea>
-      <label htmlFor={props.id}>{props.label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
     </div>
   );
 };

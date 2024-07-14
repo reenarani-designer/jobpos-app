@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormInput,
   CustomCheckBox,
   FormTextArea,
 } from "../../UIComponent/FormControl";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { config } from "../../util/Configuration";
-import { getAccessToken } from "../../util/Common";
+import { getAccessToken, sendHttpRequest } from "../../util/Common";
+import { uiStateAction } from "../../store/slices/UiState";
+import { useNavigate, useParams } from "react-router-dom";
 
 const jobDefaultValues = {
   title: "",
@@ -19,14 +21,28 @@ const jobDefaultValues = {
   postCode: "",
   country: "",
   featured: true,
+  skills: [],
 };
 
 function AddJob() {
   const token = getAccessToken();
+  const { id } = useParams();
   const [jobDetails, setJobDetails] = useState(jobDefaultValues);
-  var selectedSkills = [];
+  const [preSelSkills, setPreSelSkills] = useState([]);
   const skills = useSelector((state) => state.skills.skills);
-  const preSelectedList = [];
+
+  useEffect(() => {
+    if (id) {
+      getJobDetails();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    setPreSelSkills(jobDetails.skills.map((item) => item._id));
+  }, [jobDetails.skills]);
+
+  const dispatcher = useDispatch();
+  const navigator = useNavigate();
 
   const inputHandler = (e) => {
     let inputType = e.target.name;
@@ -36,43 +52,73 @@ function AddJob() {
     });
   };
 
-  const handleSkills = (e) => {
-    if (e.target.checked) {
-      selectedSkills.push(e.target.value);
-    } else {
-      const filteredItem = selectedSkills.filter(function (skill) {
-        return skill !== e.target.value;
-      });
-      selectedSkills = filteredItem;
+  const getJobDetails = async () => {
+    const response = await sendHttpRequest(
+      `${config.addJob}/${id}`,
+      "GET",
+      null,
+      true
+    );
+    if (response.status !== 200) {
+      let notificationData = {
+        isNotification: true,
+        message: response.message,
+        notificationType: "FAILURE",
+      };
+      dispatcher(uiStateAction.setIsNotification(notificationData));
+      navigator("/user/posted-jobs");
+      return;
     }
+    setJobDetails(response.data.data.job);
+  };
+
+  const handleSkills = (e) => {
+    const value = e.target.value;
+    setPreSelSkills((prev) => {
+      if (e.target.checked) {
+        return [...prev, value];
+      } else {
+        return prev.filter((skill) => skill !== value);
+      }
+    });
   };
 
   const updateDetails = async () => {
-    console.log(selectedSkills);
-    const response = await fetch(config.addJob, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token} `,
-      },
-      body: JSON.stringify({
-        title: jobDetails.title,
-        price: jobDetails.price,
-        description: jobDetails.description,
-        location: jobDetails.location,
-        lineAddress: jobDetails.lineAddress,
-        city: jobDetails.city,
-        state: jobDetails.state,
-        postCode: jobDetails.postCode,
-        country: jobDetails.country,
-        featured: false,
-        skills: selectedSkills,
-      }),
+    let notificationData = {
+      isNotification: true,
+      message: id
+        ? "Job Details Updated Successfully"
+        : "Job posted Successfully",
+      notificationType: "SUCCESS",
+    };
+    const request = JSON.stringify({
+      title: jobDetails.title,
+      price: jobDetails.price,
+      description: jobDetails.description,
+      location: jobDetails.location,
+      lineAddress: jobDetails.lineAddress,
+      city: jobDetails.city,
+      state: jobDetails.state,
+      postCode: jobDetails.postCode,
+      country: jobDetails.country,
+      featured: false,
+      skills: preSelSkills,
     });
-    if (!response.ok) {
-      //will add error alert here...
-      return;
+    const response = await sendHttpRequest(
+      id ? `${config.addJob}/${id}` : config.addJob,
+      id ? "PUT" : "POST",
+      request,
+      true
+    );
+
+    if (response.status !== 200) {
+      notificationData.message = response.message;
+      notificationData.notificationType = "FAILURE";
     }
+    dispatcher(uiStateAction.setIsNotification(notificationData));
+    setTimeout(() => {
+      navigator(`/user/edit-job/${response.data.data._id}`);
+    }, 3000);
   };
 
   return (
@@ -187,7 +233,7 @@ function AddJob() {
                       id={skill._id}
                       value={skill._id}
                       onChange={handleSkills}
-                      preSelectedList={preSelectedList}
+                      preSelectedList={preSelSkills}
                     />
                   ))}
               </div>

@@ -5,7 +5,6 @@ import Footer from "../Common/Footer";
 import { Outlet } from "react-router-dom";
 const UserLayout = () => {
   const UiState = useSelector((state) => state.UiState);
-  console.log(UiState);
   return (
     <>
       <header>
@@ -15,7 +14,10 @@ const UserLayout = () => {
           </div>
         </div>
       </header>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
+
       <Footer></Footer>
       {UiState.isNotification && (
         <NotificationCard

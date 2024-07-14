@@ -23,6 +23,8 @@ import { getSkills } from "./store/actions/Skills";
 import AddJob from "./pages/Jobs/Addjob";
 import Alljobs from "./pages/Jobs/Alljobs";
 import UserDashboard from "./pages/User/UserDashboard";
+import EmployerJoblist from "./pages/Jobs/Employerjoblist";
+import { uiStateAction } from "./store/slices/UiState";
 function App() {
   const dispatcher = useDispatch();
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -92,6 +94,10 @@ function App() {
         {
           path: "edit-job/:id",
           element: <AddJob />,
+        },
+        {
+          path: "posted-jobs",
+          element: <EmployerJoblist />,
         },
       ],
     },

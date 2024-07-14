@@ -1,24 +1,37 @@
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import DefaultHeader from "../../header/Defaultheader";
 import Footer from "../Common/Footer";
-const AuthLayout = () => {
-  const navigation = useNavigation();
+import { useSelector } from "react-redux";
+import { NotificationCard } from "../../UIComponent/Cards";
 
+const AuthLayout = () => {
+  const navigate = useNavigate();
+  const UiState = useSelector((state) => state.UiState);
+  const isLoading =
+    navigate &&
+    (navigate.state === "submitting" || navigate.state === "loading");
   return (
     <>
       <header>
         <div className="shadow-sm">
           <div className="container">
-            <DefaultHeader></DefaultHeader>
+            <DefaultHeader />
           </div>
         </div>
-        <main>
-          {(navigation.state === "submitting" ||
-            navigation.state === "loading") && <p>loading</p>}
-          <Outlet />
-        </main>
       </header>
-      <Footer></Footer>
+      <main>
+        {isLoading && <p>Loading...</p>}
+        <Outlet />
+      </main>
+      <Footer />
+      {UiState.isNotification && (
+        <NotificationCard
+          showToast={UiState.isNotification}
+          message={UiState.message}
+          isClosable={true}
+          type={UiState.notificationType}
+        />
+      )}
     </>
   );
 };

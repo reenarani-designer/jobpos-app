@@ -1,60 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { config } from "../../util/Configuration";
 import { getAccessToken } from "../../util/Common";
 import { JobCard } from "../../UIComponent/Cards";
 import { Pagination } from "../../UIComponent/Pagination";
+import { config } from "../../util/Configuration";
+
 function Alljobs() {
   const token = getAccessToken();
   const [jobs, setJobs] = useState([]);
   const [totalJobs, setTotalJobs] = useState(0);
-  const getJobListing = async () => {
-    const response = await fetch(`${config.jobSearch}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    if (!response.ok) {
+  const getJobListing = async () => {
+    try {
+      const response = await fetch(`${config.jobSearch}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch job listings");
+      }
+
+      const data = await response.json();
+      setJobs(data.data.jobs);
+      setTotalJobs(data.data.total);
+    } catch (error) {
+      console.error("Error fetching job listings:", error.message);
       setJobs([]);
       setTotalJobs(0);
+      // Handle error display or notification to the user
     }
-    const data = await response.json();
-    setJobs(data.data.jobs);
-    setTotalJobs(data.data.total);
   };
 
   useEffect(() => {
     getJobListing();
   }, []);
-  console.log(jobs);
 
   return (
     <>
       <div className="container-fluid bg-light text-center py-5">
-        <h1 className="h2 mb-3">FInd your next job</h1>
+        <h1 className="h2 mb-3">Find your next job</h1>
         <div className="input-group mb-3 w-50 m-auto">
           <input
             type="text"
             className="form-control"
             placeholder="Search for service"
-            aria-label="Recipient's username"
+            aria-label="Search for service"
             aria-describedby="search-btn"
           />
           <input
             type="text"
             className="form-control"
             placeholder="City or Postcode"
-            aria-label="Recipient's username"
+            aria-label="City or Postcode"
             aria-describedby="search-btn"
           />
           <button className="btn btn-primary" type="button" id="search-btn">
             Search Jobs
           </button>
         </div>
-        <a className="link text-right">Browse Categories</a>
+        <a href="/" className="link text-right">
+          Browse Categories
+        </a>
       </div>
+
       <div className="container py-5">
         <div className="row">
           <div className="col-sm-4">
@@ -73,28 +84,22 @@ function Alljobs() {
               <label htmlFor="jobcat" className="form-label">
                 Job Category
               </label>
-              <select
-                className="form-select mb-3"
-                aria-label="Select for number of employee"
-              >
-                <option defaultValue={"1"}>All Categories</option>
-                <option value="1">Cleaning</option>
-                <option value="2">Plumber</option>
-                <option value="3">Electrician</option>
-                <option value="3">Carpenter</option>
-                <option value="3">Painting</option>
+              <select className="form-select mb-3" aria-label="Job Category">
+                <option defaultValue={1}>All Categories</option>
+                <option value={2}>Cleaning</option>
+                <option value={3}>Plumber</option>
+                <option value={4}>Electrician</option>
+                <option value={5}>Carpenter</option>
+                <option value={6}>Painting</option>
               </select>
               <label htmlFor="jobtype" className="form-label">
                 Job Type
               </label>
-              <select
-                className="form-select mb-3"
-                aria-label="Select for number of employee"
-              >
-                <option defaultValue={"1"}>All Jobs</option>
-                <option value="1">Full Time</option>
-                <option value="2">Part Time</option>
-                <option value="3">Fixed Term</option>
+              <select className="form-select mb-3" aria-label="Job Type">
+                <option defaultValue={1}>All Jobs</option>
+                <option value={2}>Full Time</option>
+                <option value={3}>Part Time</option>
+                <option value={4}>Fixed Term</option>
               </select>
               <button type="submit" className="btn btn-primary">
                 Apply Filter
@@ -104,22 +109,24 @@ function Alljobs() {
               </button>
             </aside>
           </div>
+
           <div className="col-sm-8">
-            {/* START: List Item */}
-            {jobs &&
-              jobs.map((jobDetails) => {
-                return <JobCard key={jobDetails._id} jobDetails={jobDetails} />;
-              })}
+            {/* Job Listings */}
+            {jobs.length > 0 ? (
+              jobs.map((jobDetails) => (
+                <JobCard key={jobDetails._id} jobDetails={jobDetails} />
+              ))
+            ) : (
+              <p>No jobs found.</p>
+            )}
 
-            {/* END: List Item */}
-
-            {/* START: Pagination */}
-            <Pagination totalRecords={totalJobs} currentPage={1} pageLimit={1} />
-            {/* END: Pagination */}
+            {/* Pagination */}
+            <Pagination totalRecords={totalJobs} currentPage={1} pageLimit={10} />
           </div>
         </div>
       </div>
     </>
   );
 }
+
 export default Alljobs;

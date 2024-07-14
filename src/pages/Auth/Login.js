@@ -2,30 +2,48 @@ import React, { useEffect, useState } from "react";
 import { Form, json, useNavigate, useActionData } from "react-router-dom";
 import { validator, phoneRegex } from "../../validations/validator";
 import { FormInput } from "../../UIComponent/FormControl";
+import { config } from "../../util/Configuration";
+import { sendHttpRequest } from "../../util/Common";
+import { useDispatch } from "react-redux";
+import { uiStateAction } from "../../store/slices/UiState";
+
 function Login() {
   const [phoneError, setPhoneError] = useState(null);
-  const [isValidForm, setFormVaild] = useState(false);
+  const [isValidForm, setFormValid] = useState(false);
   const actionData = useActionData();
   const navigate = useNavigate();
+  const dispatcher = useDispatch();
+
   useEffect(() => {
-    if (actionData && actionData.otpGenerated) {
+    if (actionData && actionData.status === 200) {
       navigate("/otp", {
         state: {
           phoneNumber: actionData.phoneNumber,
         },
       });
     }
-  }, [actionData]);
+    if (actionData && actionData.status !== 200) {
+      dispatcher(
+        uiStateAction.setIsNotification({
+          isNotification: true,
+          message: actionData.message,
+          notificationType: "FAILURE",
+        })
+      );
+    }
+  }, [actionData, navigate]);
 
   const inputHandler = (e) => {
-    let errorMsg = "",
-      formValid = true;
-    if (!validator(phoneRegex, e.target.value)) {
+    const { value } = e.target;
+    let errorMsg = "";
+    let formValid = true;
+
+    if (!validator(phoneRegex, value)) {
       errorMsg = "Please enter a valid phone number";
       formValid = false;
     }
     setPhoneError(errorMsg);
-    setFormVaild(formValid);
+    setFormValid(formValid);
   };
 
   return (
@@ -48,25 +66,22 @@ function Login() {
     </div>
   );
 }
-export default Login;
 
-export const loginAction = async ({ request, param }) => {
+export const loginAction = async ({ request }) => {
   const formData = await request.formData();
   let phoneNumber = formData.get("phone");
 
-  const response = await fetch("http://112.196.98.174:3000/api/v1/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ phone: phoneNumber }),
-  });
+  const response = await sendHttpRequest(
+    config.register,
+    "POST",
+    JSON.stringify({ phone: phoneNumber }),
+    false
+  );
 
-  if (!response.ok) {
-    throw json({ message: "Unable to generate the OTP" }, { status: 500 });
-  }
   return json(
-    { message: "OTP generated", otpGenerated: true, phoneNumber: phoneNumber },
-    { status: 200 }
+    { ...response, phoneNumber: phoneNumber },
+    { status: response.status }
   );
 };
+
+export default Login;

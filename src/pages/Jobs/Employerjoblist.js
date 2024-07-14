@@ -1,5 +1,36 @@
-import React from "react";
-function EmployerJoblist() {
+import React, { useEffect, useState } from "react";
+import { sendHttpRequest } from "../../util/Common";
+import { config } from "../../util/Configuration";
+import { uiStateAction } from "../../store/slices/UiState";
+import { useDispatch } from "react-redux";
+import { JobCard } from "../../UIComponent/Cards";
+import { Pagination } from "../../UIComponent/Pagination";
+const EmployerJoblist = () => {
+  const dispatcher = useDispatch();
+  const [jobs, setJobs] = useState([]);
+  useEffect(() => {
+    getJobsList();
+  }, []);
+  const getJobsList = async () => {
+    const response = await sendHttpRequest(
+      config.postedJobs,
+      "GET",
+      null,
+      true
+    );
+    if (response.status !== 200) {
+      let notificationData = {
+        isNotification: true,
+        message: response.message,
+        notificationType: "FAILURE",
+      };
+      dispatcher(uiStateAction.setIsNotification(notificationData));
+      return;
+    }
+
+    setJobs(response.data.data);
+  };
+
   return (
     <>
       <div className="container-fluid bg-light text-center py-5">
@@ -28,7 +59,7 @@ function EmployerJoblist() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option defaultValue={'1'} >All Categories</option>
+                <option defaultValue={"1"}>All Categories</option>
                 <option value="1">Design</option>
                 <option value="2">Development</option>
                 <option value="3">SEO</option>
@@ -41,7 +72,7 @@ function EmployerJoblist() {
                 className="form-select mb-3"
                 aria-label="Select for number of employee"
               >
-                <option defaultValue={'1'} >All Jobs</option>
+                <option defaultValue={"1"}>All Jobs</option>
                 <option value="1">Full Time</option>
                 <option value="2">Part Time</option>
                 <option value="3">Fixed Term</option>
@@ -55,78 +86,21 @@ function EmployerJoblist() {
             </aside>
           </div>
           <div className="col-sm-8">
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h5">Design Manager</h2>
-              <span>NetSolutions</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
-            {/* START: List Item */}
-            <div className="shadow p-3 mb-3 rounded-2">
-              <h2 className="h3">Design Manager</h2>
-              <span>NetSolutions</span>
-              <p>Mohali, India</p>
-              <ul>
-                <li>
-                  Confident communications skills are a must, as well as a keen
-                  eye for detail.
-                </li>
-                <li>
-                  You will be comfortable using CAD and enjoy learning on the
-                  job.
-                </li>
-              </ul>
-            </div>
-            {/* END: List Item */}
+            {jobs &&
+              jobs.map((job) => {
+                return (
+                  <JobCard
+                    jobDetails={job}
+                    key={job._id}
+                    showOwnerAction={true}
+                  />
+                );
+              })}
+            <Pagination totalRecords={3} currentPage={2} pageLimit={10} />
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 export default EmployerJoblist;

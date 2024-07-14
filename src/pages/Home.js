@@ -6,7 +6,7 @@ function HomeSec() {
     <>
       <div className="container pt-3 pb-3">
         <div className="row align-items-center">
-          <div className="col-sm-6 text-center">
+          <div className="col-12  col-md-6 text-center">
             <div className="p-5">
               <img src="./slide1.png" alt="slide1" className="img-fluid" />
               <h1 className="h2">Find a perfect job march</h1>
@@ -16,7 +16,7 @@ function HomeSec() {
               </p>
             </div>
           </div>
-          <div className="col-sm-6">
+          <div className="col-12 col-md-6">
             <Login />
           </div>
         </div>

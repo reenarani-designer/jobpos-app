@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { uiStateAction } from "../store/slices/UiState";
+import { Link } from "react-router-dom";
 
 const getClassForSkillBadge = (index) => {
   const skillClass = ["bg-success", "bg-warning", "bg-danger", "bg-info"];
@@ -30,6 +31,11 @@ export const JobCard = (props) => {
         })}
       <p>{location}</p>
       <p>{shortDescription}</p>
+      {props.showOwnerAction && (
+        <div>
+          <Link to={`/user/edit-job/${props.jobDetails._id}`} className="btn btn-link">Edit</Link>
+        </div>
+      )}
     </div>
   );
 };
@@ -67,8 +73,6 @@ export const NotificationCard = ({
           <button
             type="button"
             className="btn-close btn-close-white me-2 m-auto"
-            //data-bs-dismiss="toast"
-            //aria-label="Close"
             onClick={onCloseButtonClick}
           ></button>
         )}
