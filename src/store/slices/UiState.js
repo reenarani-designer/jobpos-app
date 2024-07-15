@@ -1,21 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-const UiStateSlice = createSlice({
+
+const initialState = {
+  isNotification: false,
+  notificationType: null,
+  isLoading: false,
+  message: null,
+  isError: false,
+};
+
+const uiStateSlice = createSlice({
   name: "uistate",
-  initialState: {
-    isNotification: false,
-    notificationType: null,
-    isLoading: false,
-    message: null,
-    isError: false,
-  },
+  initialState,
   reducers: {
     setIsNotification(state, action) {
-      state.isNotification = action.payload.isNotification;
-      state.message = action.payload.message;
-      state.notificationType = action.payload.notificationType;
+      const { isNotification, message, notificationType } = action.payload;
+      state.isNotification = isNotification;
+      state.message = message;
+      state.notificationType = notificationType;
     },
   },
 });
 
-export const uiStateAction = UiStateSlice.actions;
-export default UiStateSlice.reducer;
+export const uiStateAction = uiStateSlice.actions;
+export default uiStateSlice.reducer;

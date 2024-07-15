@@ -23,19 +23,22 @@ import { getSkills } from "./store/actions/Skills";
 import AddJob from "./pages/Jobs/Addjob";
 import Alljobs from "./pages/Jobs/Alljobs";
 import UserDashboard from "./pages/User/UserDashboard";
-import EmployerJoblist from "./pages/Jobs/Employerjoblist";
-import { uiStateAction } from "./store/slices/UiState";
+import PostedJobs from "./pages/Jobs/PostedJobs";
+
 function App() {
-  const dispatcher = useDispatch();
+  const dispatch = useDispatch(); // Renamed from dispatcher for clarity
   const isLoading = useSelector((state) => state.auth.isLoading);
   const isSkillsLoading = useSelector((state) => state.skills.isLoading);
+
   useEffect(() => {
-    dispatcher(getUser());
-    dispatcher(getSkills());
-  }, []);
+    dispatch(getUser());
+    dispatch(getSkills());
+  }, [dispatch]); // Added dispatch as a dependency
+
   if (isLoading || isSkillsLoading) {
     return <LoadingEffect />;
   }
+
   const routes = createBrowserRouter([
     {
       path: "",
@@ -43,7 +46,7 @@ function App() {
       loader: gotoEmployeePage,
       children: [
         {
-          index: true,
+          index: true, // Ensure this is placed correctly if needed
           element: <HomeSec />,
           action: loginAction,
         },
@@ -54,7 +57,7 @@ function App() {
           action: async (meta) => {
             const res = await otpAction(meta);
             if (res && res.success) {
-              dispatcher(authActions.login({ userData: res.userData }));
+              dispatch(authActions.login({ userData: res.userData }));
               return redirect("/user");
             }
             return null;
@@ -76,7 +79,7 @@ function App() {
       loader: gotoUnauthPage,
       children: [
         {
-          index: true,
+          index: true, // Ensure this is placed correctly if needed
           element: <UserDashboard />,
         },
         {
@@ -97,7 +100,7 @@ function App() {
         },
         {
           path: "posted-jobs",
-          element: <EmployerJoblist />,
+          element: <PostedJobs />,
         },
       ],
     },

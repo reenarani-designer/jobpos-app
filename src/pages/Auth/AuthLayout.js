@@ -6,7 +6,7 @@ import { NotificationCard } from "../../UIComponent/Cards";
 
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const UiState = useSelector((state) => state.UiState);
+  const uiState = useSelector((state) => state.uiState);
   const isLoading =
     navigate &&
     (navigate.state === "submitting" || navigate.state === "loading");
@@ -24,12 +24,12 @@ const AuthLayout = () => {
         <Outlet />
       </main>
       <Footer />
-      {UiState.isNotification && (
+      {uiState.isNotification && (
         <NotificationCard
-          showToast={UiState.isNotification}
-          message={UiState.message}
+          showToast={uiState.isNotification}
+          message={uiState.message}
           isClosable={true}
-          type={UiState.notificationType}
+          type={uiState.notificationType}
         />
       )}
     </>

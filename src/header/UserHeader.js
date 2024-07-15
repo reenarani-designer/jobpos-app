@@ -1,13 +1,20 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import logo from "./logo.png";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/slices/Auth";
 
 function UserHeader() {
   const authDetails = useSelector((state) => state.auth);
   const userDetails = authDetails.userData;
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(authActions.logout());
+    navigator(".");
+  };
   return (
     <>
       <nav className="navbar navbar-expand-sm navbar-light">
@@ -38,14 +45,14 @@ function UserHeader() {
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
                 <li>
-                  <a className="dropdown-item" href="/user/jobs">
+                  <Link className="dropdown-item" to="/user/jobs">
                     Jobs
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/user/applied-jobs">
+                  <Link className="dropdown-item" to="/user/applied-jobs">
                     Applied Jobs
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -61,14 +68,14 @@ function UserHeader() {
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
                 <li>
-                  <a className="dropdown-item" href="/user/post-job">
+                  <Link className="dropdown-item" to="/user/post-job">
                     Post Jobs
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/user/posted-jobs">
+                  <Link className="dropdown-item" to="/user/posted-jobs">
                     Your Posted Jobs
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -99,17 +106,17 @@ function UserHeader() {
               </Link>
               <ul className="dropdown-menu dropdown-menu-lg-end">
                 <li>
-                  <a className="dropdown-item" href="/user/profile">
+                  <Link className="dropdown-item" to="/user/profile">
                     Update Profile
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/employeeprofile">
+                  <Link className="dropdown-item" to="/employeeprofile">
                     Change Language
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/">
+                  <a className="dropdown-item" onClick={logout}>
                     Logout
                   </a>
                 </li>

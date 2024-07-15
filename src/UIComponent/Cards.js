@@ -15,6 +15,11 @@ export const JobCard = (props) => {
       : props.jobDetails.description;
   const skills = props.jobDetails.skills;
   const location = `${props.jobDetails.location}, ${props.jobDetails.lineAddress}, ${props.jobDetails.city}, ${props.jobDetails.state}`;
+  const deleteJob = (e) => {
+    e.preventDefault();
+    props.deleteJobAction(props.jobDetails._id);
+  };
+
   return (
     <div className="shadow p-3 mb-3 rounded-2">
       <h2 className="h5">{props.jobDetails.title}</h2>
@@ -33,7 +38,15 @@ export const JobCard = (props) => {
       <p>{shortDescription}</p>
       {props.showOwnerAction && (
         <div>
-          <Link to={`/user/edit-job/${props.jobDetails._id}`} className="btn btn-link">Edit</Link>
+          <Link
+            to={`/user/edit-job/${props.jobDetails._id}`}
+            className="btn btn-link"
+          >
+            Edit
+          </Link>
+          <Link to="/" className="btn btn-link" onClick={deleteJob}>
+            Delete
+          </Link>
         </div>
       )}
     </div>

@@ -1,8 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const SkillSlice = createSlice({
+const initialState = {
+  skills: [],
+  isLoading: false,
+};
+
+const skillSlice = createSlice({
   name: "skills",
-  initialState: { skills: [], isLoading: false },
+  initialState,
   reducers: {
     setSkills(state, action) {
       state.skills = action.payload.skills;
@@ -13,5 +18,5 @@ const SkillSlice = createSlice({
   },
 });
 
-export const skillsAction = SkillSlice.actions;
-export default SkillSlice.reducer;
+export const skillsAction = skillSlice.actions;
+export default skillSlice.reducer;

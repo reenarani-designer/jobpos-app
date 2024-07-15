@@ -4,7 +4,7 @@ import { NotificationCard } from "../../UIComponent/Cards";
 import Footer from "../Common/Footer";
 import { Outlet } from "react-router-dom";
 const UserLayout = () => {
-  const UiState = useSelector((state) => state.UiState);
+  const uiState = useSelector((state) => state.uiState);
   return (
     <>
       <header>
@@ -19,12 +19,12 @@ const UserLayout = () => {
       </main>
 
       <Footer></Footer>
-      {UiState.isNotification && (
+      {uiState.isNotification && (
         <NotificationCard
-          showToast={UiState.isNotification}
-          message={UiState.message}
+          showToast={uiState.isNotification}
+          message={uiState.message}
           isClosable={true}
-          type={UiState.notificationType}
+          type={uiState.notificationType}
         />
       )}
     </>
