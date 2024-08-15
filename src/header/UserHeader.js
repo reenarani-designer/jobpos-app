@@ -100,7 +100,7 @@ function UserHeader() {
                       alt={userDetails.name}
                       title={userDetails.name}
                     />
-                    {userDetails.name ? userDetails.name : "Hi There"}
+                    
                   </>
                 )}
               </Link>

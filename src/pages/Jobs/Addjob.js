@@ -66,7 +66,7 @@ function AddJob() {
         notificationType: "FAILURE",
       };
       dispatcher(uiStateAction.setIsNotification(notificationData));
-      navigator("/user/posted-jobs");
+      //navigator("/user/posted-jobs");
       return;
     }
     setJobDetails(response.data.data.job);
@@ -116,9 +116,11 @@ function AddJob() {
       notificationData.notificationType = "FAILURE";
     }
     dispatcher(uiStateAction.setIsNotification(notificationData));
-    setTimeout(() => {
-      navigator(`/user/edit-job/${response.data.data._id}`);
-    }, 3000);
+    if (response.status === 200) {
+      setTimeout(() => {
+        navigator(`/user/edit-job/${response.data.data._id}`);
+      }, 3000);
+    }
   };
 
   return (

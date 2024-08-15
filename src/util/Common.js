@@ -55,7 +55,12 @@ export const sendHttpRequest = async (url, method, body, addAuthHeader) => {
     });
     finalResponse.status = response.status;
     if (!response.ok) {
-      throw new Error("Service Failed");
+      const res = await response.json();
+      throw new Error(
+        res && res.message
+          ? res.message
+          : "Service Failed - " + response.statusText
+      );
     }
     const res = await response.json();
     finalResponse.data = res;
