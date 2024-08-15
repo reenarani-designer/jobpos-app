@@ -35,11 +35,7 @@ function DefaultHeader() {
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/" className="btn btn-primary">
-                Login/Signup
-              </Link>
-            </li>
+            
 
             <div className="dropdown ms-2">
               <button
