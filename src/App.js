@@ -24,6 +24,7 @@ import AddJob from "./pages/Jobs/Addjob";
 import Alljobs from "./pages/Jobs/Alljobs";
 import UserDashboard from "./pages/User/UserDashboard";
 import PostedJobs from "./pages/Jobs/PostedJobs";
+import JobDetails from "./pages/Jobs/JobDetails";
 
 function App() {
   const dispatch = useDispatch(); // Renamed from dispatcher for clarity
@@ -89,6 +90,10 @@ function App() {
         {
           path: "jobs",
           element: <Alljobs />,
+        },
+        {
+          path: "job/:id",
+          element: <JobDetails />,
         },
         {
           path: "post-job",

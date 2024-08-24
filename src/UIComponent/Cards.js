@@ -22,7 +22,7 @@ export const JobCard = (props) => {
 
   return (
     <div className="shadow p-3 mb-3 rounded-2">
-      <h2 className="h5">{props.jobDetails.title}</h2>
+      <h2 className="h5"><Link to={`../job/${props.jobDetails._id}`}>{props.jobDetails.title}</Link></h2>
       {skills &&
         skills.map((skill, index) => {
           return (
@@ -72,9 +72,8 @@ export const NotificationCard = ({
   };
   return (
     <div
-      className={`toast toast-custom align-items-center text-white  border-0 ${
-        showToast ? "show" : "hide"
-      } ${toastType}`}
+      className={`toast toast-custom align-items-center text-white  border-0 ${showToast ? "show" : "hide"
+        } ${toastType}`}
       role="alert"
       aria-live="assertive"
       aria-atomic="true"

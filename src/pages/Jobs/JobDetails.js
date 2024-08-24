@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import RecommondedJobs from "./Recommendedjobs";
+//import RecommondedJobs from "./Recommendedjobs";
 function JobDetails() {
   return (
     <>
@@ -57,7 +57,7 @@ function JobDetails() {
 
           <div className="col-sm-4">
             <aside className=" bg-light p-4">
-              <RecommondedJobs></RecommondedJobs>
+              { /*<RecommondedJobs></RecommondedJobs>*/ }
             </aside>
           </div>
         </div>
