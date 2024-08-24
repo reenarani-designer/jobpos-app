@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { sendHttpRequest } from "../../util/Common";
+import { displayAddress, displaySkills, sendHttpRequest } from "../../util/Common";
 import { config } from "../../util/Configuration";
 import { useDispatch } from "react-redux";
 import { uiStateAction } from "../../store/slices/UiState";
@@ -52,6 +52,8 @@ const AppliedJobs = () => {
           {/* START: List Item */}
           {appliedJobs &&
             appliedJobs.map((jobDetails) => {
+              const address = displayAddress(jobDetails.jobId);
+              const skillsList = displaySkills(jobDetails.jobId.skills);
               return (
                 <div
                   key={jobDetails._id}
@@ -59,8 +61,8 @@ const AppliedJobs = () => {
                 >
                   <div>
                     <h2 className="h5"><Link to={`../job/${jobDetails.jobId._id}`}>{jobDetails.jobId.title}</Link> </h2>
-                    <span className="badge bg-secondary">Already Applied</span>
-                    <p>{jobDetails.jobId.lineAddress}</p>
+                    {skillsList}
+                    <p>{address}</p>
                   </div>
                   <div className="dropdown">
                     <button

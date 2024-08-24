@@ -70,3 +70,36 @@ export const sendHttpRequest = async (url, method, body, addAuthHeader) => {
     return finalResponse;
   }
 };
+
+export const displayAddress = (details) => {
+  return (
+    <address>
+      {details.location}, {details.lineAddress}, {details.city},{" "}
+      {details.postCode} {details.state}, {details.country}
+    </address>
+  );
+};
+
+export const getClassForSkillBadge = (index) => {
+  const skillClass = ["bg-success", "bg-warning", "bg-danger", "bg-info"];
+  const className = skillClass[index % skillClass.length];
+  return className;
+};
+
+export const displaySkills = (skills) => {
+  return (
+    <>
+      {skills &&
+        skills.map((skill, index) => {
+          return (
+            <span
+              key={skill._id}
+              className={`badge me-2 ${getClassForSkillBadge(index)}`}
+            >
+              {skill.name}
+            </span>
+          );
+        })}
+    </>
+  );
+};

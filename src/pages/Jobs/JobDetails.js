@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import { sendHttpRequest } from "../../util/Common";
+import { displaySkills, sendHttpRequest } from "../../util/Common";
 import { config } from "../../util/Configuration";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { uiStateAction } from "../../store/slices/UiState";
 //import RecommondedJobs from "./Recommendedjobs";
 
-const getClassForSkillBadge = (index) => {
-  const skillClass = ["bg-success", "bg-warning", "bg-danger", "bg-info"];
-  const className = skillClass[index % skillClass.length];
-  return className;
-};
+
 function JobDetails() {
   const jobId = "";
   const { id } = useParams();
@@ -73,6 +69,8 @@ function JobDetails() {
       </div>
     );
   }
+  const skillsList = displaySkills(jobDetail.job.skills);
+  console.log(skillsList);
 
   return (
     <>
@@ -84,17 +82,7 @@ function JobDetails() {
               <li className="list-group-item border-0 p-0">{jobDetail.job.lineAddress}</li>
               <li className="list-group-item border-0 p-0">
                 <span className="badge bg-secondary">Starts at ₹{jobDetail.job.price}9</span>{" "}
-                {jobDetail.job.skills &&
-                  jobDetail.job.skills.map((skill, index) => {
-                    return (
-                      <span
-                        key={skill._id}
-                        className={`badge me-2 ${getClassForSkillBadge(index)}`}
-                      >
-                        {skill.name}
-                      </span>
-                    );
-                  })}
+                {skillsList}
               </li>
             </ul>
             <p>
