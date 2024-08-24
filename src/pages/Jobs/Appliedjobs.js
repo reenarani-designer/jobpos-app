@@ -1,5 +1,5 @@
 import React from "react";
-function AppliedJobs() {
+const AppliedJobs = () => {
   return (
     <div className="container py-5">
       <div className="row">
@@ -8,9 +8,9 @@ function AppliedJobs() {
           {/* START: List Item */}
           <div className="d-flex justify-content-between border-top pt-2 mb-2 mt-2">
             <div>
-            <h2 className="h5">Plumber</h2>
-            <span className="badge bg-secondary">Already Applied</span>
-            <p>Mohali, India</p>
+              <h2 className="h5">Plumber</h2>
+              <span className="badge bg-secondary">Already Applied</span>
+              <p>Mohali, India</p>
             </div>
             <div className="dropdown">
               <button
@@ -58,9 +58,9 @@ function AppliedJobs() {
           {/* START: List Item */}
           <div className="d-flex justify-content-between border-top pt-2 mb-2 mt-2">
             <div>
-            <h2 className="h5">Electrician</h2>
-            <span className="badge bg-secondary">Already Applied</span>
-            <p>Mohali, India</p>
+              <h2 className="h5">Electrician</h2>
+              <span className="badge bg-secondary">Already Applied</span>
+              <p>Mohali, India</p>
             </div>
             <div className="dropdown">
               <button
@@ -108,9 +108,9 @@ function AppliedJobs() {
           {/* START: List Item */}
           <div className="d-flex justify-content-between border-top pt-2 mb-2 mt-2">
             <div>
-            <h2 className="h5">Plumber</h2>
-            <span className="badge bg-secondary">Already Applied</span>
-            <p>Mohali, India</p>
+              <h2 className="h5">Plumber</h2>
+              <span className="badge bg-secondary">Already Applied</span>
+              <p>Mohali, India</p>
             </div>
             <div className="dropdown">
               <button
