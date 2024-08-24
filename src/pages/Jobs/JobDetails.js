@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import { displaySkills, sendHttpRequest } from "../../util/Common";
+import { displaySkills, getUserId, sendHttpRequest } from "../../util/Common";
 import { config } from "../../util/Configuration";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import { uiStateAction } from "../../store/slices/UiState";
 //import RecommondedJobs from "./Recommendedjobs";
 
 function JobDetails() {
+  const userId = getUserId();
   const jobId = "";
   const { id } = useParams();
   const dispatcher = useDispatch();
@@ -104,7 +105,7 @@ function JobDetails() {
             </ul>
             <p>{jobDetail.job.description}</p>
 
-            {!jobDetail.isApplied && (
+            {!jobDetail.isApplied && jobDetail.job.userId._id !== userId && (
               <button className="btn btn-primary" onClick={applyOnJob}>
                 Apply Job
               </button>

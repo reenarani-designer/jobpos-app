@@ -11,5 +11,6 @@ export const config = {
   postedJobs: `${host}/api/v1/job/myJob`,
   applyJob: `${host}/api/v1/job/apply`,
   jobDetail: `${host}/api/v1/job`,
-  appliedJobs: `${host}/api/v1/job/apply`
+  appliedJobs: `${host}/api/v1/job/apply`,
+  appliedUsers: `${host}/api/v1/job/apply`
 };

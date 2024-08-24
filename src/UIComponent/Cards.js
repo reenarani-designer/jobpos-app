@@ -1,12 +1,7 @@
 import { useDispatch } from "react-redux";
 import { uiStateAction } from "../store/slices/UiState";
 import { Link } from "react-router-dom";
-
-const getClassForSkillBadge = (index) => {
-  const skillClass = ["bg-success", "bg-warning", "bg-danger", "bg-info"];
-  const className = skillClass[index % skillClass.length];
-  return className;
-};
+import { displaySkills } from "../util/Common";
 
 export const JobCard = (props) => {
   const shortDescription =
@@ -19,21 +14,15 @@ export const JobCard = (props) => {
     e.preventDefault();
     props.deleteJobAction(props.jobDetails._id);
   };
-
+  const skillsList = displaySkills(skills);
   return (
     <div className="shadow p-3 mb-3 rounded-2">
-      <h2 className="h5"><Link to={`../job/${props.jobDetails._id}`}>{props.jobDetails.title}</Link></h2>
-      {skills &&
-        skills.map((skill, index) => {
-          return (
-            <span
-              key={skill._id}
-              className={`badge me-2 ${getClassForSkillBadge(index)}`}
-            >
-              {skill.name}
-            </span>
-          );
-        })}
+      <h2 className="h5">
+        <Link to={`../job/${props.jobDetails._id}`}>
+          {props.jobDetails.title}
+        </Link>
+      </h2>
+      {skillsList}
       <p>{location}</p>
       <p>{shortDescription}</p>
       {props.showOwnerAction && (
@@ -47,6 +36,7 @@ export const JobCard = (props) => {
           <Link to="/" className="btn btn-link" onClick={deleteJob}>
             Delete
           </Link>
+          <Link to={`/user/applied-users/${props.jobDetails._id}`}>Applied Users</Link>
         </div>
       )}
     </div>
@@ -72,8 +62,9 @@ export const NotificationCard = ({
   };
   return (
     <div
-      className={`toast toast-custom align-items-center text-white  border-0 ${showToast ? "show" : "hide"
-        } ${toastType}`}
+      className={`toast toast-custom align-items-center text-white  border-0 ${
+        showToast ? "show" : "hide"
+      } ${toastType}`}
       role="alert"
       aria-live="assertive"
       aria-atomic="true"

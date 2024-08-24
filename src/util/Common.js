@@ -73,10 +73,10 @@ export const sendHttpRequest = async (url, method, body, addAuthHeader) => {
 
 export const displayAddress = (details) => {
   return (
-    <address>
+    <p>
       {details.location}, {details.lineAddress}, {details.city},{" "}
       {details.postCode} {details.state}, {details.country}
-    </address>
+    </p>
   );
 };
 

@@ -26,6 +26,7 @@ import UserDashboard from "./pages/User/UserDashboard";
 import PostedJobs from "./pages/Jobs/PostedJobs";
 import JobDetails from "./pages/Jobs/JobDetails";
 import AppliedJobs from "./pages/Jobs/Appliedjobs";
+import AppliedUsers from "./pages/AppliedUsers";
 
 function App() {
   const dispatch = useDispatch(); // Renamed from dispatcher for clarity
@@ -111,6 +112,10 @@ function App() {
         {
           path: 'applied-jobs',
           element: <AppliedJobs />
+        },
+        {
+          path: 'applied-users/:id',
+          element: <AppliedUsers />
         }
       ],
     },
