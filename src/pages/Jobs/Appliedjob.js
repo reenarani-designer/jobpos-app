@@ -1,8 +1,8 @@
 import React from "react";
-function AppliedJob(){
-    return(
-        <>
-        <div className="container py-5">
+const AppliedJob = () => {
+  return (
+    <>
+      <div className="container py-5">
         <nav aria-label="--bs-breadcrumb-divider: '>';">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -53,8 +53,8 @@ function AppliedJob(){
             <button className="btn btn-primary">Add Again</button>
           </div>
         </div>
-      </div> 
-        </>
-    );
-}
+      </div>
+    </>
+  );
+};
 export default AppliedJob;
