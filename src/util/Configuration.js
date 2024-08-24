@@ -9,4 +9,6 @@ export const config = {
   addJob: `${host}/api/v1/job`,
   jobSearch: `${host}/api/v1/job`,
   postedJobs: `${host}/api/v1/job/myJob`,
+  applyJob: `${host}/api/v1/job/apply`,
+  jobDetail: `${host}/api/v1/job`
 };
