@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { uiStateAction } from "../../store/slices/UiState";
 //import RecommondedJobs from "./Recommendedjobs";
 
-
 function JobDetails() {
   const jobId = "";
   const { id } = useParams();
@@ -21,7 +20,12 @@ function JobDetails() {
 
   const getJobDetails = async () => {
     setIsLoading(true);
-    const response = await sendHttpRequest(config.jobDetail + '/' + id, "GET", null, true);
+    const response = await sendHttpRequest(
+      config.jobDetail + "/" + id,
+      "GET",
+      null,
+      true
+    );
     if (response.status !== 200) {
       let notificationData = {
         isNotification: true,
@@ -33,8 +37,7 @@ function JobDetails() {
     }
     setJobDetails(response.data.data);
     setIsLoading(false);
-
-  }
+  };
 
   const applyOnJob = () => {
     Swal.fire({
@@ -49,16 +52,28 @@ function JobDetails() {
         doApply();
       }
     });
-  }
+  };
 
   const doApply = async () => {
-    const response = await sendHttpRequest(config.applyJob + "/" + id, "POST", null, true);
+    const response = await sendHttpRequest(
+      config.applyJob + "/" + id,
+      "POST",
+      null,
+      true
+    );
     if (response.status !== 200) {
-      Swal.fire("OOPs!", "Something went wrong, and we could not able to Apply on the job. Please try again later.", "error");
+      Swal.fire(
+        "OOPs!",
+        "Something went wrong, and we could not able to Apply on the job. Please try again later.",
+        "error"
+      );
       return;
     }
     Swal.fire("Done!", "Applied on the job Successfully", "success");
-  }
+    setJobDetails((prevState) => {
+      return { ...prevState, isApplied: true };
+    });
+  };
 
   if (isLoading) {
     return (
@@ -70,8 +85,6 @@ function JobDetails() {
     );
   }
   const skillsList = displaySkills(jobDetail.job.skills);
-  console.log(skillsList);
-
   return (
     <>
       <div className="container py-5">
@@ -79,22 +92,28 @@ function JobDetails() {
           <div className="col-sm-8">
             <h1 className="h2 mb-0">{jobDetail.job.title}</h1>
             <ul className="list-group mb-3">
-              <li className="list-group-item border-0 p-0">{jobDetail.job.lineAddress}</li>
               <li className="list-group-item border-0 p-0">
-                <span className="badge bg-secondary">Starts at ₹{jobDetail.job.price}9</span>{" "}
+                {jobDetail.job.lineAddress}
+              </li>
+              <li className="list-group-item border-0 p-0">
+                <span className="badge bg-secondary">
+                  Starts at ₹{jobDetail.job.price}9
+                </span>{" "}
                 {skillsList}
               </li>
             </ul>
-            <p>
-              {jobDetail.job.description}
-            </p>
+            <p>{jobDetail.job.description}</p>
 
-            {!jobDetail.isApplied && <button className="btn btn-primary" onClick={applyOnJob}>Apply Job</button>}
+            {!jobDetail.isApplied && (
+              <button className="btn btn-primary" onClick={applyOnJob}>
+                Apply Job
+              </button>
+            )}
           </div>
 
           <div className="col-sm-4">
             <aside className=" bg-light p-4">
-              { /*<RecommondedJobs></RecommondedJobs>*/}
+              {/*<RecommondedJobs></RecommondedJobs>*/}
             </aside>
           </div>
         </div>
