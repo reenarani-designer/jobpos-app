@@ -3,15 +3,24 @@ import { getAccessToken } from "../../util/Common";
 import { JobCard } from "../../UIComponent/Cards";
 import { Pagination } from "../../UIComponent/Pagination";
 import { config } from "../../util/Configuration";
+import { useSelector } from "react-redux";
+import { CustomCheckBox } from "../../UIComponent/FormControl";
 
 function Alljobs() {
   const token = getAccessToken();
   const [jobs, setJobs] = useState([]);
   const [totalJobs, setTotalJobs] = useState(0);
+  const skills = useSelector((state) => state.skills.skills);
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
   const getJobListing = async () => {
     try {
-      const response = await fetch(`${config.jobSearch}`, {
+      const params = new URLSearchParams();
+      if (selectedSkills.length > 0)
+        params.append("skills", selectedSkills.join(","));
+
+      const url = `${config.jobSearch}?${params.toString()}`;
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -33,10 +42,21 @@ function Alljobs() {
       // Handle error display or notification to the user
     }
   };
+  const filterJobs = (e) => {
+    const value = e.target.value;
+    const newSelectedSkills = selectedSkills.includes(value)
+      ? selectedSkills.filter((skill) => skill !== value)
+      : [...selectedSkills, value];
+    setSelectedSkills(newSelectedSkills);
+  };
+
+  const resetSkills = () => {
+    setSelectedSkills([]);
+  };
 
   useEffect(() => {
     getJobListing();
-  }, []);
+  }, [selectedSkills]);
 
   return (
     <>
@@ -70,42 +90,26 @@ function Alljobs() {
         <div className="row">
           <div className="col-sm-4">
             <aside className="bg-light p-3">
-              <h3 className="h4">Filter</h3>
-              <label htmlFor="keyword" className="form-label">
-                Keyword
-              </label>
-              <input
-                type="text"
-                className="form-control mb-3"
-                id="keyword"
-                aria-describedby="keyword"
-                placeholder="Search for service"
-              />
-              <label htmlFor="jobcat" className="form-label">
-                Job Category
-              </label>
-              <select className="form-select mb-3" aria-label="Job Category">
-                <option defaultValue={1}>All Categories</option>
-                <option value={2}>Cleaning</option>
-                <option value={3}>Plumber</option>
-                <option value={4}>Electrician</option>
-                <option value={5}>Carpenter</option>
-                <option value={6}>Painting</option>
-              </select>
-              <label htmlFor="jobtype" className="form-label">
-                Job Type
-              </label>
-              <select className="form-select mb-3" aria-label="Job Type">
-                <option defaultValue={1}>All Jobs</option>
-                <option value={2}>Full Time</option>
-                <option value={3}>Part Time</option>
-                <option value={4}>Fixed Term</option>
-              </select>
-              <button type="submit" className="btn btn-primary">
-                Apply Filter
-              </button>
-              <button type="reset" className="btn btn-secondary ms-2">
-                Cancel
+              <h3 className="h4">Skills</h3>
+              <div className="d-inline-column mb-3">
+                {skills &&
+                  skills.map((skill) => (
+                    <CustomCheckBox
+                      key={skill._id}
+                      label={skill.name}
+                      id={skill._id}
+                      value={skill._id}
+                      onChange={filterJobs}
+                      preSelectedList={selectedSkills}
+                    />
+                  ))}
+              </div>
+              <button
+                type="reset"
+                className="btn btn-secondary ms-2"
+                onClick={resetSkills}
+              >
+                Clear
               </button>
             </aside>
           </div>
@@ -121,7 +125,11 @@ function Alljobs() {
             )}
 
             {/* Pagination */}
-            <Pagination totalRecords={totalJobs} currentPage={1} pageLimit={10} />
+            <Pagination
+              totalRecords={totalJobs}
+              currentPage={1}
+              pageLimit={10}
+            />
           </div>
         </div>
       </div>
