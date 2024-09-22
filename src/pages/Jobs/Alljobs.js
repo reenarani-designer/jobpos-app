@@ -9,14 +9,18 @@ import { CustomCheckBox } from "../../UIComponent/FormControl";
 function Alljobs() {
   const token = getAccessToken();
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
   const [totalJobs, setTotalJobs] = useState(0);
   const skills = useSelector((state) => state.skills.skills);
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   const getJobListing = async () => {
     try {
-      const response = await fetch(`${config.jobSearch}`, {
+      const params = new URLSearchParams();
+      if (selectedSkills.length > 0)
+        params.append("skills", selectedSkills.join(","));
+
+      const url = `${config.jobSearch}?${params.toString()}`;
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +34,6 @@ function Alljobs() {
 
       const data = await response.json();
       setJobs(data.data.jobs);
-      setFilteredJobs(data.data.jobs);
       setTotalJobs(data.data.total);
     } catch (error) {
       console.error("Error fetching job listings:", error.message);
@@ -44,26 +47,16 @@ function Alljobs() {
     const newSelectedSkills = selectedSkills.includes(value)
       ? selectedSkills.filter((skill) => skill !== value)
       : [...selectedSkills, value];
-    const newFilteredJobs =
-      newSelectedSkills.length > 0
-        ? jobs.filter((job) =>
-            job.skills.some((skill) => newSelectedSkills.includes(skill._id))
-          )
-        : jobs;
     setSelectedSkills(newSelectedSkills);
-    setFilteredJobs(newFilteredJobs);
-    setTotalJobs(newFilteredJobs.length);
   };
 
   const resetSkills = () => {
     setSelectedSkills([]);
-    setFilteredJobs(jobs);
-    setTotalJobs(jobs.length);
   };
 
   useEffect(() => {
     getJobListing();
-  }, []);
+  }, [selectedSkills]);
 
   return (
     <>
@@ -123,8 +116,8 @@ function Alljobs() {
 
           <div className="col-sm-8">
             {/* Job Listings */}
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((jobDetails) => (
+            {jobs.length > 0 ? (
+              jobs.map((jobDetails) => (
                 <JobCard key={jobDetails._id} jobDetails={jobDetails} />
               ))
             ) : (
